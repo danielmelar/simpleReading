@@ -1,7 +1,34 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@inject Service.BookService BookService
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Leituras</PageTitle>
 
-<h1>Hello, world!</h1>
+@if(BookService.GetBooks().Count() < 1)
+{
+    <h1>Lista de livros vazia!</h1>
+}
 
-Welcome to your new app.
+@foreach(var book in BookService.GetBooks())
+{
+    <div>
+        <h3>Livro: @book.Title</h3>
+        <p><a>Autor: @book.Author</a></p>
+        <p>@(book.Readed ? "Sim" : "Não")</p>
+    </div>
+}
+
+<button @onclick="SaveAsJson" >salvar como json</button>
+
+<p>@savedJson</p>
+
+
+@code {
+
+    private string savedJson = "";
+
+    public void SaveAsJson()
+    {
+        savedJson = JsonSerializer.Serialize(BookService.GetBooks());
+    }
+}

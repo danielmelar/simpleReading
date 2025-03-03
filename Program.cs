@@ -1,10 +1,14 @@
 using simpleReading.Components;
+using simpleReading.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents(); // add servicos do razor
+
+// garante uma instancia para toda a aplicação
+builder.Services.AddSingleton<BookService>(); 
 
 var app = builder.Build();
 
@@ -24,6 +28,6 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>() // descobre componentes
     .AddInteractiveServerRenderMode(); // configura renderizacao do lado do servidor
-
     //.AddInteractiveWebAssymblyRenderMode -> renderiza do lado do clientes
+
 app.Run();
