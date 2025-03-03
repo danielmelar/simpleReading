@@ -6,29 +6,42 @@
 
 @if(BookService.GetBooks().Count() < 1)
 {
-    <h1>Lista de livros vazia!</h1>
+    <h1>Lista de leituras vazia!</h1>
 }
 
 @foreach(var book in BookService.GetBooks())
 {
     <div>
-        <h3>Livro: @book.Title</h3>
-        <p><a>Autor: @book.Author</a></p>
-        <p>@(book.Readed ? "Sim" : "Não")</p>
+        <h3>Leitura: @book.Title</h3>
+        <a>Autor: @book.Author</a>
+        <br>
+        <a>Lído: @(book.Readed ? "Sim" : "Não")</a>
     </div>
+    <br>
 }
 
+<input type="text" placeholder="nome do arquivo" @bind="fileName" >
 <button @onclick="SaveAsJson" >salvar como json</button>
 
-<p>@savedJson</p>
-
+@formattedJson
 
 @code {
 
     private string savedJson = "";
+    private string path = "";
+    private string fileName = "";
+    private string formattedJson = "";
 
     public void SaveAsJson()
     {
         savedJson = JsonSerializer.Serialize(BookService.GetBooks());
+        formattedJson = System.Text.Json.JsonSerializer.Serialize(JsonDocument.Parse(savedJson), new JsonSerializerOptions(){ WriteIndented = true});
+
+        path = fileName + ".json";
+        using (StreamWriter sw = File.CreateText(path))
+        {
+            sw.Write(formattedJson);
+        }
+        
     }
 }
