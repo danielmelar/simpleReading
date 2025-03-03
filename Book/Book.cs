@@ -12,6 +12,8 @@ public  class Book
         Author = author;
         Readed = readed;
     }
+    
+    public int Id { get; set; }
     public string Title { get; set; }
     public string Author { get; set; }
     public bool Readed { get; set; }

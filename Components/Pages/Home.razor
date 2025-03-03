@@ -20,8 +20,18 @@
     <br>
 }
 
-<input type="text" placeholder="nome do arquivo" @bind="fileName" >
-<button @onclick="SaveAsJson" >salvar como json</button>
+@if (BookService.GetBooks().Count > 0)
+{
+    <input type="text" placeholder="nome do arquivo" @bind="fileName" >
+    @if(string.IsNullOrWhiteSpace(fileName))
+    {
+        <a>adicione um nome ao arquivo!</a>
+    }
+    else
+    {
+        <button @onclick="SaveAsJson" >salvar como json</button>
+    }
+}
 
 @formattedJson
 
