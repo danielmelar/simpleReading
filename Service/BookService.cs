@@ -18,4 +18,10 @@ public class BookService
 
         books.Add(book);
     }
+
+    public void RemoveBook(int id)
+    {
+        var book = books.Find(x => x.Id == id);
+        books.Remove(book);
+    }
 }
