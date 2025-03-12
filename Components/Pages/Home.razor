@@ -1,6 +1,7 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @inject Service.BookService BookService
+@inject IJSRuntime JS
 
 <PageTitle>Leituras</PageTitle>
 
@@ -31,10 +32,25 @@
     else
     {
         <button @onclick="SaveAsJson" >salvar como json</button>
+        <button @onclick="DownloadJson">Baixar arquivo json</button>
     }
 }
 
 @formattedJson
+
+<script>
+    window.downloadJson = async (fileName, contentStreamReference) => {
+      const arrayBuffer = await contentStreamReference.arrayBuffer();
+      const blob = new Blob([arrayBuffer]);
+      const url = URL.createObjectURL(blob);
+      const anchorElement = document.createElement('a');
+      anchorElement.href = url;
+      anchorElement.download = fileName ?? '';
+      anchorElement.click();
+      anchorElement.remove();
+      URL.revokeObjectURL(url);
+    }
+</script>
 
 @code {
 
@@ -48,11 +64,23 @@
         savedJson = JsonSerializer.Serialize(BookService.GetBooks());
         formattedJson = System.Text.Json.JsonSerializer.Serialize(JsonDocument.Parse(savedJson), new JsonSerializerOptions(){ WriteIndented = true});
 
-        path = fileName + ".json";
+        path = "wwwroot/jsons/" + fileName + ".json";
         using (StreamWriter sw = File.CreateText(path))
         {
             sw.Write(formattedJson);
         }
-        
+    }
+
+    private async Task DownloadJson()
+    {
+        savedJson = JsonSerializer.Serialize(BookService.GetBooks());
+        formattedJson = System.Text.Json.JsonSerializer.Serialize(JsonDocument.Parse(savedJson), new JsonSerializerOptions() { WriteIndented = true });
+
+        byte[] fileInBytes = Encoding.ASCII.GetBytes(formattedJson);
+        var fileStream = new MemoryStream(fileInBytes);
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JS.InvokeVoidAsync("downloadJson", fileName + ".json", streamRef);        
     }
 }

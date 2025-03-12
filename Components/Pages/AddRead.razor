@@ -18,11 +18,28 @@
 
 <button @onclick="AddBook">adicionar leitura</button>
 
+
+<br>
+<br>
+<br>
+
+<h1>Upload de Arquivo</h1>
+
+
+<InputFile OnChange="LoadJson" />
+
+<a>@fileContent</a>
+
 @code {
-    
+
     private string title = "";
     private string author = "";
     private bool readed = false;
+
+    private int maxFileSize = 5 * 1024 * 1024;
+    private string fileContent = "";
+
+    private List<Book> books = [];
 
     private void AddBook()
     {
@@ -34,6 +51,20 @@
             title = "";
             author = "";
             readed = false;
+        }
+    }
+
+    private async Task LoadJson(InputFileChangeEventArgs e)
+    {
+        var reader = await new StreamReader(e.File.OpenReadStream(maxFileSize)).ReadToEndAsync();
+
+        fileContent = reader;
+
+        books = System.Text.Json.JsonSerializer.Deserialize<List<Book>>(fileContent);
+        
+        foreach (var book in books)
+        {
+            BookService.AddBook(book);
         }
     }
 }
