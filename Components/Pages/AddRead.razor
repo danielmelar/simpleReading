@@ -61,7 +61,9 @@
         fileContent = reader;
 
         books = System.Text.Json.JsonSerializer.Deserialize<List<Book>>(fileContent);
-        
+            
+        BookService.books = [];
+
         foreach (var book in books)
         {
             BookService.AddBook(book);
