@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\simpleReading-wasm.props" />
+</Project>
