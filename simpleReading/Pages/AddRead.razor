@@ -1,0 +1,47 @@
+﻿@page "/adicionar"
+@inject simpleReading.ReadService ReadService;
+
+<h1>Adicionar nova leitura</h1>
+
+<div>
+    <label>adicionar leitura manualmente?</label>
+    <input type="checkbox" @bind="addManually" />
+</div>
+
+@if (addManually)
+{
+    <label>manualmente</label>
+}
+else
+{
+    <label>upar arquivo</label>
+
+    <div>
+        <InputFile OnChange="LoadJson" />
+    </div>
+}
+
+@code {
+    private bool addManually = false;
+    private int maxFileSize = 5 * 1024 * 1024; // 5MB
+    private string fileContent = "";
+
+    private List<Read> reads = [];
+
+    private async Task LoadJson(InputFileChangeEventArgs e)
+    {
+        // abre o arquivo e lê seu conteúdo
+        var reader = await new StreamReader(e.File.OpenReadStream(maxFileSize)).ReadToEndAsync();
+
+        fileContent = reader;
+
+        // desserializa Json
+        reads = System.Text.Json.JsonSerializer.Deserialize<List<Read>>(fileContent);
+
+        // zera lista já existente
+        ReadService.reads = [];
+
+        ReadService.reads = reads;
+
+    }
+}
