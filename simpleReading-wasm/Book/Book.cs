@@ -18,5 +18,4 @@ namespace simpleReading.Wasm.Service
         public string Author { get; set; }
         public bool Readed { get; set; }
     }
-
 }

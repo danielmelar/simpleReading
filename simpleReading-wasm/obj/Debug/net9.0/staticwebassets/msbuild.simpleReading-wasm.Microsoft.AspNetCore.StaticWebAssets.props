@@ -894,8 +894,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName>ScopedCss</AssetTraitName>
       <AssetTraitValue>ApplicationBundle</AssetTraitValue>
-      <Fingerprint>nyalqd8b0z</Fingerprint>
-      <Integrity>QefqLI5APjHOvYR17A/iRNE5yASytdXUXvf/KG+Zf2Q=</Integrity>
+      <Fingerprint>q75xa5vxql</Fingerprint>
+      <Integrity>WrmLJnbJvb3mhkf6mA+4+9SAmN/yda5Q2L5puyDmRr0=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\simpleReading-wasm.styles.css'))</OriginalItemSpec>
