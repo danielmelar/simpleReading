@@ -78,8 +78,7 @@ else
     private void AddNewRead()
     {
         if (!string.IsNullOrWhiteSpace(title) 
-            && !string.IsNullOrWhiteSpace(author)
-            && !string.IsNullOrWhiteSpace(source))
+            && !string.IsNullOrWhiteSpace(author))
         {
             Read read = new Read(title, author, readed, source);
             ReadService.AddRead(read);
