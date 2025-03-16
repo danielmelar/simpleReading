@@ -8,7 +8,7 @@ public class ReadService
 
     public Read GetReadById(int id)
     {
-        var foundRead = reads.First(x => x.Id == id);
+        var foundRead = reads.FirstOrDefault(x => x.Id == id);
         if (foundRead == null)
             return null;
 
@@ -26,11 +26,6 @@ public class ReadService
         reads.Remove(reads.Find(x => x.Id == id));
     }
 
-    private int CreateId()
-    {
-        return reads.Count() + 1;
-    } 
-
     public void UpdateRead(Read read)
     {
         var searchRead = reads.FirstOrDefault(x => x.Id == read.Id);
@@ -41,6 +36,18 @@ public class ReadService
             searchRead.Readed = read.Readed;
             searchRead.Source = read.Source;
         }
-
     }
+
+    private int CreateId()
+    {
+        int id = reads.Count() + 1;
+        Read read = GetReadById(id);
+        while (read != null)
+        {
+            id += 1;
+            read = GetReadById(id);
+        }
+        
+        return id;
+    } 
 }

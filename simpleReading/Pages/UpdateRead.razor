@@ -12,7 +12,7 @@
 else
 {
     <label>Insira o id</label>
-    <input type="number" @bind="id" placeholder="buscar leitura" min="1" max="@maxToSelect">
+    <input type="number" @bind="id" placeholder="buscar leitura" min="1" />
     <button @onclick="SearchRead">buscar</button>
 
     @if (searched)
@@ -41,12 +41,16 @@ else
         </table>
 
         <button @onclick="Update">salvar</button>
-        
+
         @if (updated)
         {
             <span>leitura atualizada</span>
 
         }
+    }
+    else
+    {
+        <span>@msgWarning</span>
     }
 }
 
@@ -54,16 +58,23 @@ else
 
     private int id = 1;
     private Read read = new Read();
-    private int maxToSelect => ReadService.reads.Count();
     private bool searched = false;
     private bool updated = false;
+    private string msgWarning = "";
 
     private void SearchRead()
     {
-        Console.WriteLine("test");
         read = ReadService.GetReadById(id);
-        searched = true;
-        updated = false;
+        if (read == null)
+        {
+            searched = false;
+            msgWarning = "leitura não encontrada! Confirme o id.";
+        }
+        else
+        {
+            searched = true;
+            msgWarning = "";
+        }
     }
 
     private void Update()

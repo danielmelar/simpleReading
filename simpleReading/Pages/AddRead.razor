@@ -19,7 +19,7 @@
 
     <label>já foi lido?</label>
     <input type="checkbox" @bind="readed" />
-    
+
     <label>fonte/link</label>
     <input type="text" @bind="source" placeholder="fonte/link" />
 
@@ -27,6 +27,31 @@
     @if (!string.IsNullOrWhiteSpace(msgWarning))
     {
         <label>@msgWarning</label>
+
+        @if (addedRead != null)
+        {
+            <table>
+                <tr>
+                    <th colspan="2" align="center">@addedRead.Title</th>
+                </tr>
+                <tr>
+                    <th>Autor</th>
+                    <th>@addedRead.Author</th>
+                </tr>
+                <tr>
+                    <th>Lido</th>
+                    <th>@(addedRead.Readed ? "Sim" : "Não")</th>
+                </tr>
+                <tr>
+                    <th>Fonte/Link</th>
+                    <th>@addedRead.Source</th>
+                </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>@addedRead.Id</th>
+                </tr>
+            </table>
+        }
     }
 }
 else
@@ -48,24 +73,29 @@ else
 
     private string msgWarning = "";
 
+    private Read addedRead = new Read();
+
     private void AddNewRead()
     {
         if (!string.IsNullOrWhiteSpace(title) 
             && !string.IsNullOrWhiteSpace(author)
             && !string.IsNullOrWhiteSpace(source))
-            {
-                Read read = new Read(title, author, readed, source);
-                ReadService.AddRead(read);
+        {
+            Read read = new Read(title, author, readed, source);
+            ReadService.AddRead(read);
 
-                title = "";
-                author = "";
-                readed = false;
-                source = "";
-                msgWarning = "";
-            }
+            title = "";
+            author = "";
+            readed = false;
+            source = "";
+            msgWarning = "leitura adicionada";
+
+            addedRead = read;
+        }
         else
         {
             msgWarning = "preencha todos os campos";
+            addedRead = null;
         }
     }
 
