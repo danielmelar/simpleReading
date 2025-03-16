@@ -44,6 +44,8 @@ jobs:
 
             -   name: Setup Pages
                 uses: actions/configure-pages@v4
+                with: 
+                    path: 'docs/wwwroot'
 
             -   name: Upload
                 uses: actions/upload-pages-artifact@v3
