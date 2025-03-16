@@ -4,7 +4,7 @@ on:
     push:
         branchs: ["wasm-v2"]
     
-    workflow_dispath:
+    workflow_dispatch:
 
 permissions:
     content: read
