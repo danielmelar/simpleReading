@@ -5,11 +5,12 @@ public class Read
     public Read()
     { }
 
-    public Read(string title, string author, bool readed)
+    public Read(string title, string author, bool readed, string source)
     {
         Title = title;
         Author = author;
         Readed = readed;
+        Source = source;
     }
     
     public int Id { get; set; }

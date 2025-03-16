@@ -1,47 +1,83 @@
 ﻿@page "/adicionar"
+@using simpleReading;
 @inject simpleReading.ReadService ReadService;
 
 <h1>Adicionar nova leitura</h1>
 
 <div>
-    <label>adicionar leitura manualmente?</label>
-    <input type="checkbox" @bind="addManually" />
+    <label>deseja enviar arquivo?</label>
+    <input type="checkbox" @bind="sendFile" />
 </div>
 
-@if (addManually)
+@if (!sendFile)
 {
-    <label>manualmente</label>
+    <label>título</label>
+    <input type="text" @bind="title" placeholder="título" />
+
+    <label>autor</label>
+    <input type="text" @bind="author" placeholder="autor" />
+
+    <label>já foi lido?</label>
+    <input type="checkbox" @bind="readed" />
+    
+    <label>fonte/link</label>
+    <input type="text" @bind="source" placeholder="fonte/link" />
+
+    <button @onclick="AddNewRead">adicionar leitura</button>
+    @if (!string.IsNullOrWhiteSpace(msgWarning))
+    {
+        <label>@msgWarning</label>
+    }
 }
 else
 {
-    <label>upar arquivo</label>
-
     <div>
         <InputFile OnChange="LoadJson" />
     </div>
 }
 
 @code {
-    private bool addManually = false;
+    private string title = "";
+    private string author = "";
+    private bool readed = false;
+    private string source = ""; 
+
+    private static bool sendFile = false;
     private int maxFileSize = 5 * 1024 * 1024; // 5MB
     private string fileContent = "";
 
-    private List<Read> reads = [];
+    private string msgWarning = "";
+
+    private void AddNewRead()
+    {
+        if (!string.IsNullOrWhiteSpace(title) 
+            && !string.IsNullOrWhiteSpace(author)
+            && !string.IsNullOrWhiteSpace(source))
+            {
+                Read read = new Read(title, author, readed, source);
+                ReadService.AddRead(read);
+
+                title = "";
+                author = "";
+                readed = false;
+                source = "";
+                msgWarning = "";
+            }
+        else
+        {
+            msgWarning = "preencha todos os campos";
+        }
+    }
 
     private async Task LoadJson(InputFileChangeEventArgs e)
     {
         // abre o arquivo e lê seu conteúdo
-        var reader = await new StreamReader(e.File.OpenReadStream(maxFileSize)).ReadToEndAsync();
-
-        fileContent = reader;
-
-        // desserializa Json
-        reads = System.Text.Json.JsonSerializer.Deserialize<List<Read>>(fileContent);
+        fileContent = await new StreamReader(e.File.OpenReadStream(maxFileSize)).ReadToEndAsync();
 
         // zera lista já existente
         ReadService.reads = [];
 
-        ReadService.reads = reads;
-
+        // desserializa Json
+        ReadService.reads = System.Text.Json.JsonSerializer.Deserialize<List<Read>>(fileContent);
     }
 }

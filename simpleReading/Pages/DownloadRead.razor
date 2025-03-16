@@ -1,0 +1,56 @@
+﻿@page "/baixar"
+@inject simpleReading.ReadService ReadService;
+@inject IJSRuntime JS;
+
+<h3>Baixar leituras</h3>
+@if (ReadService.reads.Count() < 1)
+{
+    <h3>Não há leituas inseridas!</h3>
+}
+
+@if (ReadService.GetReads().Count > 0)
+{ 
+    <input type="text" placeholder="nome do arquivo" @bind="fileName" >
+    @if(string.IsNullOrWhiteSpace(fileName))
+    {
+        <a>adicione um nome ao arquivo!</a>
+    }
+    else
+    {
+        <button @onclick="DownloadJson">salvar como json</button>
+    }
+}
+
+<script>
+    window.downloadJson = async (fileName, contentStreamReference) => {
+      const arrayBuffer = await contentStreamReference.arrayBuffer();
+      const blob = new Blob([arrayBuffer]);
+      const url = URL.createObjectURL(blob);
+      const anchorElement = document.createElement('a');
+      anchorElement.href = url;
+      anchorElement.download = fileName ?? '';
+      anchorElement.click();
+      anchorElement.remove();
+      URL.revokeObjectURL(url);
+    }
+</script>
+
+@code {
+    
+    private static string fileName = "";
+    private string readsAsJson = "";
+    private string formattedJson = "";
+
+    private async Task DownloadJson()
+    {
+        readsAsJson = JsonSerializer.Serialize(ReadService.GetReads());
+        
+        formattedJson = JsonSerializer.Serialize(JsonDocument.Parse(readsAsJson), new JsonSerializerOptions() { WriteIndented = true });
+    
+        byte[] fileInBytes = Encoding.ASCII.GetBytes(formattedJson);
+        var fileStream = new MemoryStream(fileInBytes);
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+        await JS.InvokeVoidAsync("downloadJson", fileName + ".json", streamRef);
+    }
+}
