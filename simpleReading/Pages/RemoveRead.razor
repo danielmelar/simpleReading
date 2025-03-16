@@ -3,44 +3,51 @@
 
 <h3>Remover leitura</h3>
 
-<label>Insira o id</label>
-<input type="number" @bind="id" placeholder="buscar leitura" min="1" max="@maxToSelect">
-<button @onclick="SearchRead">buscar</button>
-
-@if (searched)
+@if(ReadService.GetReads().Count() < 1)
 {
-    @if (!removed)
-    {
-        <table>
-            <tr>
-                <th colspan="2" align="center">@read.Title</th>
-            </tr>
-            <tr>
-                <th>Autor</th>
-                <th>@read.Author</th>
-            </tr>
-            <tr>
-                <th>Lido</th>
-                <th>@(read.Readed ? "Sim" : "Não")</th>
-            </tr>
-            <tr>
-                <th>Fonte/Link</th>
-                <th>@read.Source</th>
-            </tr>
-            <tr>
-                <th>Id</th>
-                <th>@read.Id</th>
-            </tr>
-        </table>
-    }
-
-    <button @onclick="Remove">remover leitura</button>
-    @if (removed)
-    {
-        <span>leitura removida</span>
-    }
+    <h1>Lista de leituras vazia!</h1>
 }
+else
+{
+    <label>Insira o id</label>
+    <input type="number" @bind="id" placeholder="buscar leitura" min="1" max="@maxToSelect">
+    <button @onclick="SearchRead">buscar</button>
 
+    @if (searched)
+    {
+        @if (!removed)
+        {
+            <table>
+                <tr>
+                    <th colspan="2" align="center">@read.Title</th>
+                </tr>
+                <tr>
+                    <th>Autor</th>
+                    <th>@read.Author</th>
+                </tr>
+                <tr>
+                    <th>Lido</th>
+                    <th>@(read.Readed ? "Sim" : "Não")</th>
+                </tr>
+                <tr>
+                    <th>Fonte/Link</th>
+                    <th>@read.Source</th>
+                </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>@read.Id</th>
+                </tr>
+            </table>
+        }
+
+        <button @onclick="Remove">remover leitura</button>
+        @if (removed)
+        {
+            <span>leitura removida</span>
+        }
+    }
+
+}
 
 @code {
 

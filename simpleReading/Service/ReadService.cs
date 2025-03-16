@@ -30,4 +30,17 @@ public class ReadService
     {
         return reads.Count() + 1;
     } 
+
+    public void UpdateRead(Read read)
+    {
+        var searchRead = reads.FirstOrDefault(x => x.Id == read.Id);
+        if (searchRead != null)
+        {
+            searchRead.Title = read.Title;
+            searchRead.Author = read.Author;
+            searchRead.Readed = read.Readed;
+            searchRead.Source = read.Source;
+        }
+
+    }
 }

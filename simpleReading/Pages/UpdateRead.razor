@@ -1,0 +1,74 @@
+﻿@page "/atualizar"
+@using simpleReading;
+@inject simpleReading.ReadService ReadService;
+
+
+<h3>Atualizar leitura</h3>
+
+@if(ReadService.GetReads().Count() < 1)
+{
+    <h1>Lista de leituras vazia!</h1>
+}
+else
+{
+    <label>Insira o id</label>
+    <input type="number" @bind="id" placeholder="buscar leitura" min="1" max="@maxToSelect">
+    <button @onclick="SearchRead">buscar</button>
+
+    @if (searched)
+    {
+
+        <table>
+            <tr>
+                <th colspan="2" align="center"><input type="text" @bind="read.Title" /></th>
+            </tr>
+            <tr>
+                <th>Autor</th>
+                <th><input type="text" @bind="read.Author" /></th>
+            </tr>
+            <tr>
+                <th>Lido</th>
+                <th><input type="checkbox" @bind="read.Readed" /></th>
+            </tr>
+            <tr>
+                <th>Fonte/Link</th>
+                <th><input type="text" @bind="read.Author" /></th>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <th>@read.Id</th>
+            </tr>
+        </table>
+
+        <button @onclick="Update">salvar</button>
+        
+        @if (updated)
+        {
+            <span>leitura atualizada</span>
+
+        }
+    }
+}
+
+@code {
+
+    private int id = 1;
+    private Read read = new Read();
+    private int maxToSelect => ReadService.reads.Count();
+    private bool searched = false;
+    private bool updated = false;
+
+    private void SearchRead()
+    {
+        Console.WriteLine("test");
+        read = ReadService.GetReadById(id);
+        searched = true;
+        updated = false;
+    }
+
+    private void Update()
+    {
+        ReadService.UpdateRead(read);
+        updated = true;
+    }
+}
