@@ -22,32 +22,32 @@ jobs:
             url: ${{ steps.deployment.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
+            -   name: Checkout
                 uses: actions/checkout@v4
             
-            - name: Setup .NET
+            -   name: Setup .NET
                 uses: actions/setup-dotnet@v3
                 with:
                     dotnet-version: 9.0.x
 
-            - name: Install .NET Wasm Tools
+            -   name: Install .NET Wasm Tools
                 run: dotnet workload install wasm-tools
 
-            - name: Restore Dependencies
+            -   name: Restore Dependencies
                 run: dotnet restore
 
-            - name:
+            -   name:
                 run: dotnet build -c Release --no-restore
 
-            - nome: Publish .NET
+            -   name: Publish .NET
                 run: dotnet publish simpleReading.csproj -c Release -o docs --no-logo
 
-            - name: Setup Pages
+            -   name: Setup Pages
                 uses: actions/configure-pages@v4
 
-            - name: Upload
+            -   name: Upload
                 uses: actions/upload-pages-artifact@v3
 
-            - name: Deploy
+            -   name: Deploy
                 id: deployment
                 uses: actions/deploy-pages@v4
