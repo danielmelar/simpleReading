@@ -1,7 +1,9 @@
 ﻿@page "/remover"
 @inject simpleReading.ReadService ReadService;
 
-<h3>Remover leitura</h3>
+<PageTitle>Remover</PageTitle>
+
+<h1>Remover leitura</h1>
 
 @if(ReadService.GetReads().Count() < 1)
 {

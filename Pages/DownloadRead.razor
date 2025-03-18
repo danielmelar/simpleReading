@@ -2,7 +2,10 @@
 @inject simpleReading.ReadService ReadService;
 @inject IJSRuntime JS;
 
-<h3>Baixar leituras</h3>
+<PageTitle>Baixar</PageTitle>
+
+<h1>Baixar leituras</h1>
+
 @if (ReadService.reads.Count() < 1)
 {
     <h3>Não há leituas inseridas!</h3>

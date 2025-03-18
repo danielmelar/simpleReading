@@ -1,9 +1,13 @@
+* {
+    margin: 0;
+}
+
 table, th, td {
     border: 1px solid black;
   }
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: monospace;
 }
 
 h1:focus {
@@ -116,3 +120,42 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+/*
+    menu sanduiche
+*/
+
+.navbar-toggler {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0.5rem;
+}
+
+.navbar-toggler-icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    background-color: black;
+    mask: url('data:image/svg+xml;base64,...') no-repeat center;
+    -webkit-mask: url('data:image/svg+xml;base64,...') no-repeat center;
+}
+
+.disableButton {
+    visibility: hidden;
+}
+
+@media (max-width: 768px) {
+    .collapse {
+        display: none;
+    }
+
+    .collapse.show {
+        display: block;
+    }
+
+    .disableButton {
+        visibility: visible;
+    }
+}
+
