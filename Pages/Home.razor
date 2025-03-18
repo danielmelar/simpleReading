@@ -5,39 +5,37 @@
 
 <h1>Suas leituras</h1>
 
-@if (ReadService.reads.Count() < 1)
-{
-    <h3>Não há leituas inseridas!</h3>
-}
-else
-{
-    @foreach (var read in ReadService.reads)
+<div>
+    @if (ReadService.reads.Count() < 1)
     {
-        <table>
-                <tr>
-                    <th colspan="2" align="center">@read.Title</th>
-                </tr>
-                <tr>
-                    <th>Autor</th>
-                    <th>@read.Author</th>
-                </tr>
-                <tr>
-                    <th>Lido</th>
-                    <th>@(read.Readed ? "Sim" : "Não")</th>
-                </tr>
-                <tr>
-                    <th>Fonte/Link</th>
-                    <th>@read.Source</th>
-                </tr>
-                <tr>
-                    <th>Id</th>
-                    <th>@read.Id</th>
-                </tr>
-        </table>
-        <br>
+        <h3>Não há leituas inseridas!</h3>
     }
-}
-
-@code {
-    
-}
+    else
+    {
+        @foreach (var read in ReadService.reads)
+        {
+            <table>
+                    <tr>
+                        <th colspan="2" align="center">@read.Title</th>
+                    </tr>
+                    <tr>
+                        <th>Autor</th>
+                        <th>@read.Author</th>
+                    </tr>
+                    <tr>
+                        <th>Lido</th>
+                        <th>@(read.Readed ? "Sim" : "Não")</th>
+                    </tr>
+                    <tr>
+                        <th>Fonte/Link</th>
+                        <th>@read.Source</th>
+                    </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>@read.Id</th>
+                    </tr>
+            </table>
+            <br>
+        }
+    }
+</div>

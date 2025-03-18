@@ -5,15 +5,17 @@
 
 <h1>Remover leitura</h1>
 
-@if(ReadService.GetReads().Count() < 1)
+@if (ReadService.reads.Count() < 1)
 {
-    <h1>Lista de leituras vazia!</h1>
+    <h3>Não há leituas inseridas!</h3>
 }
 else
 {
     <label>Insira o id</label>
     <input type="number" @bind="id" placeholder="buscar leitura" min="1" />
     <button @onclick="SearchRead">buscar</button>
+    <br>
+    <br>
 
     @if (searched)
     {
@@ -42,13 +44,14 @@ else
             </table>
         }
 
+        <br>
         @if (searched)
         {
             <button @onclick="Remove">remover leitura</button>
 
             @if (removed)
             {
-                <span>leitura removida</span>
+                <span> leitura removida</span>
             }
         }
     }

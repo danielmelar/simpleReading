@@ -6,26 +6,43 @@
 
 <h1>Adicionar nova leitura</h1>
 
-<div>
+<div class="inputFile">
     <label>deseja enviar arquivo?</label>
     <input type="checkbox" @bind="sendFile" />
 </div>
 
+<br>
+<br>
+
 @if (!sendFile)
 {
-    <label>título</label>
-    <input type="text" @bind="title" placeholder="título" />
 
-    <label>autor</label>
-    <input type="text" @bind="author" placeholder="autor" />
+    <label>Adicionar manualmente:</label>
+    <div class="inputs">
+        <div class="fields">
+            <label>título</label>
+            <input type="text" @bind="title" placeholder="título" />
+        </div>
+        
+        <div class="fields">
+            <label>autor</label>
+            <input type="text" @bind="author" placeholder="autor" />
+        </div>
 
-    <label>já foi lido?</label>
-    <input type="checkbox" @bind="readed" />
+        <div  class="fields">
+            <label>já foi lido?</label>
+            <input type="checkbox" @bind="readed" />
+        </div>
 
-    <label>fonte/link</label>
-    <input type="text" @bind="source" placeholder="fonte/link" />
+        <div class="fields">
+            <label>fonte/link</label>
+            <input type="text" @bind="source" placeholder="fonte/link" />
+        </div>
 
-    <button @onclick="AddNewRead">adicionar leitura</button>
+        <br>
+        <button @onclick="AddNewRead">adicionar leitura</button>
+    </div>
+
     @if (!string.IsNullOrWhiteSpace(msgWarning))
     {
         <label>@msgWarning</label>

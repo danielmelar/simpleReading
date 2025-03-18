@@ -15,7 +15,9 @@ else
     <label>Insira o id</label>
     <input type="number" @bind="id" placeholder="buscar leitura" min="1" />
     <button @onclick="SearchRead">buscar</button>
-
+    <br>
+    <br>
+    
     @if (searched)
     {
 
@@ -40,7 +42,7 @@ else
                 <th>@read.Id</th>
             </tr>
         </table>
-
+        <br>
         <button @onclick="Update">salvar</button>
 
         @if (updated)
