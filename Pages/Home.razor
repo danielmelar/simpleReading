@@ -5,6 +5,9 @@
 
 <h1>Suas leituras</h1>
 
+<label>lista simplificada</label>
+<input type="checkbox" @bind="simpleVisual" />
+
 <div>
     @if (ReadService.reads.Count() < 1)
     {
@@ -14,28 +17,43 @@
     {
         @foreach (var read in ReadService.reads)
         {
-            <table>
-                    <tr>
-                        <th colspan="2" align="center">@read.Title</th>
-                    </tr>
-                    <tr>
-                        <th>Autor</th>
-                        <th>@read.Author</th>
-                    </tr>
-                    <tr>
-                        <th>Lido</th>
-                        <th>@(read.Readed ? "Sim" : "Não")</th>
-                    </tr>
-                    <tr>
-                        <th>Fonte/Link</th>
-                        <th>@read.Source</th>
-                    </tr>
-                    <tr>
-                        <th>Id</th>
-                        <th>@read.Id</th>
-                    </tr>
-            </table>
-            <br>
+            if (!simpleVisual)
+            {   
+                <table>
+                        <tr>
+                            <th colspan="2" align="center">@read.Title</th>
+                        </tr>
+                        <tr>
+                            <th>Autor</th>
+                            <th>@read.Author</th>
+                        </tr>
+                        <tr>
+                            <th>Lido</th>
+                            <th>@(read.Readed ? "Sim" : "Não")</th>
+                        </tr>
+                        <tr>
+                            <th>Fonte/Link</th>
+                            <th>@read.Source</th>
+                        </tr>
+                        <tr>
+                            <th>Id</th>
+                            <th>@read.Id</th>
+                        </tr>
+                </table>
+                <br>
+            }
+            else
+            {
+                <ul>
+                    <li>
+                        @read.Title, de @read.Author
+                    </li>
+                </ul>
+            }
         }
     }
 </div>
+
+@code {
+    private static bool simpleVisual = false;
+}
