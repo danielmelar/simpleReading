@@ -1,5 +1,6 @@
 ﻿@page "/remover"
 @inject simpleReading.ReadService ReadService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
 
 <PageTitle>Remover</PageTitle>
 
@@ -14,6 +15,10 @@ else
     <label>Insira o id</label>
     <input type="number" @bind="id" placeholder="buscar leitura" min="1" />
     <button @onclick="SearchRead">buscar</button>
+    <br>
+    <br>
+
+    <button @onclick="RemoveAll">Remover Todos</button>
     <br>
     <br>
 
@@ -90,5 +95,13 @@ else
         ReadService.RemoveRead(id);
         removed = true;
         read = new Read();
+        localStorage.SetItemAsync("reads", ReadService.reads);
+    }
+
+    private void RemoveAll()
+    {
+        ReadService.reads = [];
+        localStorage.SetItemAsync("reads", ReadService.reads);
+        msgWarning = "leituras removidas";
     }
 }

@@ -1,6 +1,6 @@
 ﻿@page "/atualizar"
-@using simpleReading;
 @inject simpleReading.ReadService ReadService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
 
 <PageTitle>Atualizar</PageTitle>
 
@@ -17,7 +17,7 @@ else
     <button @onclick="SearchRead">buscar</button>
     <br>
     <br>
-    
+
     @if (searched)
     {
 
@@ -83,6 +83,7 @@ else
     private void Update()
     {
         ReadService.UpdateRead(read);
+        localStorage.SetItemAsync("reads", ReadService.reads);
         updated = true;
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject simpleReading.ReadService ReadService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
 
 <PageTitle>Leituras</PageTitle>
 
@@ -9,7 +10,7 @@
 <input type="checkbox" @bind="simpleVisual" />
 
 <div>
-    @if (ReadService.reads.Count() < 1)
+    @if (ReadService.reads.Count() == 0)
     {
         <h3>Não há leituas inseridas!</h3>
     }
@@ -20,25 +21,25 @@
             if (!simpleVisual)
             {   
                 <table>
-                        <tr>
-                            <th colspan="2" align="center">@read.Title</th>
-                        </tr>
-                        <tr>
-                            <th>Autor</th>
-                            <th>@read.Author</th>
-                        </tr>
-                        <tr>
-                            <th>Lido</th>
-                            <th>@(read.Readed ? "Sim" : "Não")</th>
-                        </tr>
-                        <tr>
-                            <th>Fonte/Link</th>
-                            <th>@read.Source</th>
-                        </tr>
-                        <tr>
-                            <th>Id</th>
-                            <th>@read.Id</th>
-                        </tr>
+                    <tr>
+                        <th colspan="2" align="center">@read.Title</th>
+                    </tr>
+                    <tr>
+                        <th>Autor</th>
+                        <th>@read.Author</th>
+                    </tr>
+                    <tr>
+                        <th>Lido</th>
+                        <th>@(read.Readed ? "Sim" : "Não")</th>
+                    </tr>
+                    <tr>
+                        <th>Fonte/Link</th>
+                        <th>@read.Source</th>
+                    </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>@read.Id</th>
+                    </tr>
                 </table>
                 <br>
             }
@@ -55,5 +56,19 @@
 </div>
 
 @code {
-    private static bool simpleVisual = false;
+    private static bool simpleVisual = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await localStorage.GetItemAsync<List<Read>>("reads"); // busca localStorage por chave
+        if (result is null)
+        {
+            await localStorage.SetItemAsync("reads", ReadService.reads); // define chave e valor do localStorage
+        }
+        else
+        {
+            ReadService.reads = result;
+        }
+
+    }
 }
