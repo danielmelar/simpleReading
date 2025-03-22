@@ -158,6 +158,11 @@ display: flex;
 flex-direction:row;
 }
 
+.result-search {
+  width: 10px;
+  border-bottom: solid var(--maincolor);
+}
+
 
 @media (max-width: 768px) {
     .collapse {

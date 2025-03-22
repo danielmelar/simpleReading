@@ -9,6 +9,12 @@
 <label>lista simplificada</label>
 <input type="checkbox" @bind="simpleVisual" />
 
+<br>
+
+<label>apenas lidos</label>
+<input type="checkbox" @bind="JustReaded" />
+
+
 <div>
     @if (ReadService.reads.Count() == 0)
     {
@@ -16,40 +22,48 @@
     }
     else
     {
-        @foreach (var read in ReadService.reads)
+        @foreach (var read in Reads)
         {
+
             if (!simpleVisual)
             {   
-                <table>
-                    <tr>
-                        <th colspan="2" align="center">@read.Title</th>
-                    </tr>
-                    <tr>
-                        <th>Autor</th>
-                        <th>@read.Author</th>
-                    </tr>
-                    <tr>
-                        <th>Lido</th>
-                        <th>@(read.Readed ? "Sim" : "Não")</th>
-                    </tr>
-                    <tr>
-                        <th>Fonte/Link</th>
-                        <th>@read.Source</th>
-                    </tr>
-                    <tr>
-                        <th>Id</th>
-                        <th>@read.Id</th>
-                    </tr>
-                </table>
+                <div>
+                    <ul>
+                        <li>
+                            <strong>@read.Title</strong>, de @read.Author
+                        </li>
+                        <ul>
+                            <li>
+                                Id: @read.Id
+                            </li>
+                            <li>
+                                Já foi lido: @(read.Readed? "Sim" : "Não")
+                            </li>
+                            <li>
+                                Fonte: @if(string.IsNullOrWhiteSpace(read.Source))
+                                {
+                                    <span>Origen ou fonte não inserida.</span>
+                                }
+                                else
+                                {
+                                    @read.Source
+                                }
+                            </li>
+                        </ul>
+                    </ul>
+                     <div class="result-search"></div>
+                </div>
                 <br>
             }
             else
             {
-                <ul>
-                    <li>
-                        @read.Title, de @read.Author
-                    </li>
-                </ul>
+                <div>
+                    <ul>
+                        <li>
+                            <strong>@read.Title</strong>, de @read.Author
+                        </li>
+                    </ul>
+                </div>
             }
         }
     }
@@ -57,18 +71,19 @@
 
 @code {
     private static bool simpleVisual = true;
+    private static bool JustReaded = false;
+    private List<Read> Reads => JustReaded ? ReadService.GetReads().FindAll(x => x.Readed == true) : ReadService.GetReads();
 
     protected override async Task OnInitializedAsync()
     {
         var result = await localStorage.GetItemAsync<List<Read>>("reads"); // busca localStorage por chave
         if (result is null)
         {
-            await localStorage.SetItemAsync("reads", ReadService.reads); // define chave e valor do localStorage
+            await localStorage.SetItemAsync("reads", ReadService.GetReads()); // define chave e valor do localStorage
         }
         else
         {
             ReadService.reads = result;
         }
-
     }
 }

@@ -20,30 +20,28 @@ else
 
     @if (searched)
     {
-
-        <table>
-            <tr>
-                <th colspan="2" align="center"><input type="text" @bind="read.Title" /></th>
-            </tr>
-            <tr>
-                <th>Autor</th>
-                <th><input type="text" @bind="read.Author" /></th>
-            </tr>
-            <tr>
-                <th>Lido</th>
-                <th><input type="checkbox" @bind="read.Readed" /></th>
-            </tr>
-            <tr>
-                <th>Fonte/Link</th>
-                <th><input type="text" @bind="read.Author" /></th>
-            </tr>
-            <tr>
-                <th>Id</th>
-                <th>@read.Id</th>
-            </tr>
-        </table>
+        <div class="result-search">
+            <label>Resultado da busca: </label>
+            <ul>
+                <li>
+                    Título: <input type="text" @bind="read.Title"/>
+                </li>
+                <li>
+                    Autor: <input type="text" @bind="read.Author"/>
+                </li>
+                <li>
+                    Já lido: <input type="checkbox" @bind="read.Readed" />
+                </li>
+                <li>
+                    Origem ou fonte: <input type="text" @bind="read.Source" />
+                </li>
+                <li>
+                    Id: @read.Id
+                </li>
+                <button @onclick="Update">salvar</button>
+            </ul>
+        </div>
         <br>
-        <button @onclick="Update">salvar</button>
 
         @if (updated)
         {
@@ -54,6 +52,37 @@ else
     else
     {
         <span>@msgWarning</span>
+    }
+
+    @foreach (var read in ReadService.reads)
+    {
+        <div>
+            <ul>
+                <li>
+                    Título: <input type="text" @bind="read.Title"/>
+                </li>
+                <li>
+                    Autor: <input type="text" @bind="read.Author"/>
+                </li>
+                <li>
+                    Já lido: <input type="checkbox" @bind="read.Readed" />
+                </li>
+                <li>
+                    Origem ou fonte: <input type="text" @bind="read.Source" />
+                </li>
+                <li>
+                    Id: @read.Id
+                </li>
+                <button @onclick="Update">salvar</button>
+            </ul>
+            <div class="result-search"></div>
+        </div>
+        <br>
+
+        @if (updated)
+        {
+            <span>leitura atualizada</span>
+        }
     }
 }
 

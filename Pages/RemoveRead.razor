@@ -26,34 +26,39 @@ else
     {
         @if (!removed && read != null)
         {
-            <table>
-                <tr>
-                    <th colspan="2" align="center">@read.Title</th>
-                </tr>
-                <tr>
-                    <th>Autor</th>
-                    <th>@read.Author</th>
-                </tr>
-                <tr>
-                    <th>Lido</th>
-                    <th>@(read.Readed ? "Sim" : "Não")</th>
-                </tr>
-                <tr>
-                    <th>Fonte/Link</th>
-                    <th>@read.Source</th>
-                </tr>
-                <tr>
-                    <th>Id</th>
-                    <th>@read.Id</th>
-                </tr>
-            </table>
+            <div class="result-search">   
+                <label>Resultado da busca:</label> 
+                <ul>
+                    <li>
+                        <strong>@read.Title</strong>, de @read.Author
+                    </li>
+                    <ul>
+                        <li>
+                            Id: @read.Id
+                        </li>
+                        <li>
+                            Já foi lido: @(read.Readed? "Sim" : "Não")
+                        </li>
+                        <li>
+                            Fonte: @if(string.IsNullOrWhiteSpace(read.Source))
+                            {
+                                <span>Origen ou fonte não inserida.</span>
+                            }
+                            else
+                            {
+                                @read.Source
+                            }
+                        </li>
+                    </ul>
+                    <button @onclick="(() => Remove(id))">remover leitura</button>
+                </ul>
+            </div>
+            <br>
         }
 
         <br>
         @if (searched)
         {
-            <button @onclick="Remove">remover leitura</button>
-
             @if (removed)
             {
                 <span> leitura removida</span>
@@ -65,7 +70,21 @@ else
         <span>@msgWarning</span>
     }
 
+    @foreach (var read in ReadService.reads)
+    {
+        <div>   
+            <ul>
+                <li>
+                    Id: @read.Id. <strong>@read.Title</strong>, de @read.Author 
+                </li>
+                <button @onclick="(() => Remove(id))">remover leitura</button>
+            </ul> 
+            <div class="result-search"></div>
+        </div>
+    }
 }
+
+
 
 @code {
 
@@ -90,7 +109,7 @@ else
         }
     }
 
-    private void Remove()
+    private void Remove(int id)
     {
         ReadService.RemoveRead(id);
         removed = true;

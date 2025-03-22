@@ -43,6 +43,7 @@
         <br>
         <button @onclick="AddNewRead">adicionar leitura</button>
     </div>
+    <br>
 
     @if (!string.IsNullOrWhiteSpace(msgWarning))
     {
@@ -50,27 +51,30 @@
 
         @if (addedRead != null)
         {
-            <table>
-                <tr>
-                    <th colspan="2" align="center">@addedRead.Title</th>
-                </tr>
-                <tr>
-                    <th>Autor</th>
-                    <th>@addedRead.Author</th>
-                </tr>
-                <tr>
-                    <th>Lido</th>
-                    <th>@(addedRead.Readed ? "Sim" : "Não")</th>
-                </tr>
-                <tr>
-                    <th>Fonte/Link</th>
-                    <th>@addedRead.Source</th>
-                </tr>
-                <tr>
-                    <th>Id</th>
-                    <th>@addedRead.Id</th>
-                </tr>
-            </table>
+            <ul>
+                <li>
+                    <strong>Título: @addedRead.Title</strong>
+                </li>
+                <li>
+                    Author: @addedRead.Author
+                </li>
+                <li>
+                    Id: @addedRead.Id
+                </li>
+                <li>
+                    Já foi lido: @(addedRead.Readed? "Sim" : "Não")
+                </li>
+                <li>
+                    Fonte: @if(string.IsNullOrWhiteSpace(addedRead.Source))
+                    {
+                        <span>Origen ou fonte não inserida.</span>
+                    }
+                    else
+                    {
+                        @addedRead.Source
+                    }
+                </li>
+            </ul>
         }
     }
 }
@@ -107,7 +111,7 @@ else
             author = "";
             readed = false;
             source = "";
-            msgWarning = "leitura adicionada";
+            msgWarning = "leitura adicionada:";
 
             addedRead = read;
             localStorage.SetItemAsync("reads", ReadService.reads);
