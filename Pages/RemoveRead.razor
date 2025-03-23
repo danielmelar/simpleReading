@@ -26,7 +26,7 @@ else
     {
         @if (!removed && read != null)
         {
-            <div class="result-search">   
+            <div>   
                 <label>Resultado da busca:</label> 
                 <ul>
                     <li>
@@ -52,18 +52,18 @@ else
                     </ul>
                     <button @onclick="(() => Remove(id))">remover leitura</button>
                 </ul>
+                @if (searched)
+                {
+                    @if (removed)
+                    {
+                        <span> leitura removida</span>
+                    }
+                }
+                <div class="result-search"></div>
             </div>
             <br>
         }
-
         <br>
-        @if (searched)
-        {
-            @if (removed)
-            {
-                <span> leitura removida</span>
-            }
-        }
     }
     else
     {

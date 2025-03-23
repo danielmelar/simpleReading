@@ -20,7 +20,7 @@ else
 
     @if (searched)
     {
-        <div class="result-search">
+        <div>
             <label>Resultado da busca: </label>
             <ul>
                 <li>
@@ -40,14 +40,16 @@ else
                 </li>
                 <button @onclick="Update">salvar</button>
             </ul>
+            @if (updated)
+            {
+                <span>leitura atualizada!</span>
+
+            }
+            <div class="result-search"></div>
         </div>
         <br>
 
-        @if (updated)
-        {
-            <span>leitura atualizada</span>
 
-        }
     }
     else
     {

@@ -22,9 +22,16 @@
     }
     else
     {
+        @if (!JustReaded)
+        {
+            <h4>total de livros: @ReadService.GetReads().Count()</h4>
+        }
+        else
+        {
+            <h4>total de livros lidos: @ReadService.GetReads().Where(x => x.Readed == true).Count()</h4>
+        }
         @foreach (var read in Reads)
         {
-
             if (!simpleVisual)
             {   
                 <div>
