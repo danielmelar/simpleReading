@@ -1,0 +1,32 @@
+﻿@model simpleReading.Models.User
+
+<h3>Register</h3>
+
+<form asp-action="Register" method="post">
+    <div >
+        <label asp-for="Username"></label>
+        <input asp-for="Username" />
+        <span asp-validation-for="Username"></span>
+    </div>
+
+    <div >
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+
+
+@* @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+} *@
