@@ -22,7 +22,6 @@ namespace simpleReading.Controllers
             var user = await _authService.Login(email, password);
             if (user is not null)
             {
-                //HttpContext.Session.SetString("logged_username", user.Username);
                 HttpContext.Session.SetObject("currentUser", user);
                 return RedirectToAction("Index", "Home");
             }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace simpleReading.Models
 {
@@ -15,5 +16,10 @@ namespace simpleReading.Models
 
         [Required]
         public string Password { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public virtual ICollection<Read> Reads { get; set; }
     }
 }
