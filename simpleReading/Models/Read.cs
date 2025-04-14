@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace simpleReading.Models
 {
@@ -22,6 +23,7 @@ namespace simpleReading.Models
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        [JsonIgnore]
         public virtual User User { get; set; }
     }
 }

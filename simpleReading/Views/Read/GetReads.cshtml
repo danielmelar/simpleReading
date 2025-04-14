@@ -1,0 +1,22 @@
+﻿@using simpleReading.Extensions
+@{
+    ViewData["Title"] = "Leituras";
+    var currentUser = Context.Session.GetObject<User>("currentUser");
+}
+
+<h3>Minhas leituras</h3>
+
+@if (currentUser.Reads.Any())
+{
+    
+    @foreach (var read in currentUser.Reads)
+    {
+        <h1>@read.Author</h1>
+    }
+}
+
+@* @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+} *@
