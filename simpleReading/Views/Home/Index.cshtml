@@ -1,5 +1,11 @@
-﻿@{
+﻿@using simpleReading.Extensions
+@{
     ViewData["Title"] = "Home Page";
+    var currentUser = Context.Session.GetObject<User>("currentUser");
+}
+
+@{
+    
 }
 
 <div class="text-center">
@@ -7,7 +13,7 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-@if (!string.IsNullOrWhiteSpace(Context.Session.GetString("logged_username")))
+@if (currentUser != null)
 {
-    <h3>Olá, @Context.Session.GetString("logged_username")</h3>
+    <h3>Olá, @currentUser.Username!</h3>
 }

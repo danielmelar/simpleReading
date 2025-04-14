@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using simpleReading.Extensions;
 using simpleReading.Models;
 
 namespace simpleReading.Controllers;
@@ -15,6 +16,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        //var user = HttpContext.Session.GetString("logged_username");
+        var user = HttpContext.Session.GetObject<User>("currentUser");
+        if (user is null)
+        {
+            return RedirectToAction("Login", "Auth");
+        }
         return View();
     }
 

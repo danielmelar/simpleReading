@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using simpleReading.Context;
+using simpleReading.Extensions;
 using simpleReading.Models;
 using simpleReading.Service;
 
@@ -21,7 +22,8 @@ namespace simpleReading.Controllers
             var user = await _authService.Login(email, password);
             if (user is not null)
             {
-                HttpContext.Session.SetString("logged_username", user.Username);
+                //HttpContext.Session.SetString("logged_username", user.Username);
+                HttpContext.Session.SetObject("currentUser", user);
                 return RedirectToAction("Index", "Home");
             }
             
@@ -43,6 +45,13 @@ namespace simpleReading.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View(model);
+        }
+
+        [HttpGet("/logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

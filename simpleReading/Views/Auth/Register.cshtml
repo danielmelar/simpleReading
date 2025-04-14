@@ -1,4 +1,8 @@
 ﻿@model simpleReading.Models.User
+@{
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    ViewData["Title"] = "Register";
+}
 
 <h3>Register</h3>
 
@@ -24,6 +28,7 @@
     <button type="submit">Register</button>
 </form>
 
+<button value="Redirect" onclick="window.location='@Url.Action("Login", "Auth")'">login</button>
 
 @* @section Scripts {
     @{
