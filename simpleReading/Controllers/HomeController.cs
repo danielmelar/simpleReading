@@ -7,16 +7,8 @@ namespace simpleReading.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
-        //var user = HttpContext.Session.GetString("logged_username");
         var user = HttpContext.Session.GetObject<User>("currentUser");
         if (user is null)
         {

@@ -19,6 +19,7 @@ var cs = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(cs));
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

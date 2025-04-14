@@ -10,11 +10,14 @@ namespace simpleReading.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
+        [Display(Name = "Título")]
         public string Title { get; set; }
 
         [Required]
+        [Display(Name = "Autor")]
         public string Author { get; set; }
 
+        [Display(Name = "Fonte")]
         public string?  Source{ get; set; }
 
         [ForeignKey("User")]

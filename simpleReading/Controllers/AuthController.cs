@@ -7,10 +7,11 @@ using simpleReading.Service;
 
 namespace simpleReading.Controllers
 {
-    public class AuthController(AuthService authService, AppDbContext context) : Controller
+    public class AuthController(AuthService authService, UserService userService, AppDbContext context) : Controller
     {
         private readonly AuthService _authService = authService;
         private readonly AppDbContext _context = context;
+        private readonly UserService _userService = userService;
 
         [HttpGet("/login")]
         public IActionResult Login()
@@ -21,21 +22,16 @@ namespace simpleReading.Controllers
         [HttpPost("/login")]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var user = await _authService.Login(email, password);
-            if (user is not null)
-            {
-                //var reads = _context.Read.AllAsync(predicate: x => x.UserId == user.Id);
-                var reads = await _context.Read.ToListAsync(new CancellationToken());
+            var user = await _userService.GetUserByLoginCredentials(email, password);
+            if (user == null) return View("Login");
 
-                user.Reads = reads.FindAll(x => x.UserId == user.Id);
+            var reads = await _context.Read.ToListAsync(new CancellationToken());
 
-                HttpContext.Session.SetObject("currentUser", user);
-                
+            user.Reads = reads.FindAll(x => x.UserId == user.Id);
 
-                return RedirectToAction("Index", "Home");
-            }
-            
-            return View("Login");
+            HttpContext.Session.SetObject("currentUser", user);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("/register")]
@@ -47,13 +43,9 @@ namespace simpleReading.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register(User model)
         {
-            if (ModelState.IsValid)
-            {
-                await _authService.Register(model);
-                return RedirectToAction("Index", "Home");
-            }
-            return View(model);
-        }
+            await _authService.Register(model);
+            return RedirectToAction("Index", "Home");
+    }
 
         [HttpGet("/logout")]
         public IActionResult Logout()
