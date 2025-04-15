@@ -19,7 +19,6 @@ namespace simpleReading.Services
 
         public async Task<User?> Login(string email, string password)
         {
-
             var user = await _userService.GetUserByLoginCredentials(email, password);
             if (user == null) return null;
 

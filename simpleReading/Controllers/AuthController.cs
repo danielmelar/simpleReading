@@ -4,7 +4,6 @@ using simpleReading.Context;
 using simpleReading.Extensions;
 using simpleReading.Interfaces;
 using simpleReading.Models;
-using simpleReading.Services;
 
 namespace simpleReading.Controllers
 {
@@ -24,7 +23,7 @@ namespace simpleReading.Controllers
         public async Task<IActionResult> Login(string email, string password)
         {
             var user = await _authService.Login(email, password);
-            if (user == null) return View("Login");
+            if (user == null) return View();
 
             HttpContext.Session.SetObject("logged_user", user);
 
@@ -40,7 +39,9 @@ namespace simpleReading.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register(User model)
         {
-            await _authService.Register(model);
+            if (!await _authService.Register(model))
+                return View();
+
             return RedirectToAction("Index", "Home");
         }
 

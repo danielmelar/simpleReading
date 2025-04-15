@@ -10,13 +10,17 @@ namespace simpleReading.Models
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        [Required]
+        [Required(ErrorMessage = "Apelido é necessário")]
+        [Display(Name = "Apelido")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email é necessário")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Senha é necessária")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
         [DataType(DataType.DateTime)]

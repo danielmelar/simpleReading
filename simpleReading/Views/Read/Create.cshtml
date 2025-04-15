@@ -6,24 +6,24 @@
 <h3>Nova leitura</h3>
 
 <form asp-action="Create" method="post">
-    <div>
+    <div class="form-group">
         <label asp-for="Title"></label>
-        <input asp-for="Title" />
+        <input class="form-control" asp-for="Title" />
         <span asp-validation-for="Title"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label asp-for="Author"></label>
-        <input asp-for="Author" />
+        <input class="form-control" asp-for="Author" />
         <span asp-validation-for="Author"></span>
     </div>
 
-    <div>
+    <div class="form-group">
         <label asp-for="Source"></label>
-        <input asp-for="Source" />
+        <input class ="form-control" asp-for="Source" />
         <span asp-validation-for="Source"></span>
     </div>
-
-    <button type="submit">Adicionar</button>
+    <br />
+    <button class="btn btn-primary" type="submit">Adicionar</button>
 </form>
 

@@ -14,7 +14,11 @@
         <h3>@read.Author</h3>
 
 
-        <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">deletar</a>
+       
+
+        <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">
+            <button type="button" class="btn btn-outline-danger btn-sm">deletar</button>
+            </a>
         <br />
     }
 }

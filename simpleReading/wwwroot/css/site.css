@@ -20,3 +20,26 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.login {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-items {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-label {
+    width: 100px;
+}
+
+.login-input {
+    width: auto;
+}
