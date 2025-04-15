@@ -8,15 +8,13 @@
 
 @if (currentUser.Reads.Any())
 {
-    
     @foreach (var read in currentUser.Reads)
     {
-        <h1>@read.Author</h1>
+        <br />
+        <h3>@read.Author</h3>
+
+
+        <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">deletar</a>
+        <br />
     }
 }
-
-@* @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-} *@

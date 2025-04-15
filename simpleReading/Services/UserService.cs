@@ -21,11 +21,6 @@ namespace simpleReading.Services
             return user;
         }
 
-        //public async Task<User> GetUser()
-        //{
-
-        //}
-
         public async Task CreateUser()
         {
 
