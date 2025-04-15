@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using simpleReading.Context;
-using simpleReading.Models;
-using simpleReading.Service;
-using System.Runtime;
+using simpleReading.Interfaces;
+using simpleReading.Services;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +17,9 @@ builder.Services.AddControllersWithViews()
 var cs = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(cs));
 
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IReadService, ReadService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

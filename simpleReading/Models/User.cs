@@ -22,6 +22,6 @@ namespace simpleReading.Models
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public virtual ICollection<Read> Reads { get; set; }
+        public virtual ICollection<Read>? Reads { get; set; }
     }
 }

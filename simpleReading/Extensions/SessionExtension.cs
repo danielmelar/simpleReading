@@ -6,7 +6,8 @@ namespace simpleReading.Extensions
     {
         public static void SetObject<T>(this ISession session, string key, T value)
         {
-            session.SetString(key, JsonSerializer.Serialize(value));
+            var json = JsonSerializer.Serialize(value);
+            session.SetString(key, json);
         }
 
         public static T? GetObject<T>(this ISession session, string key)

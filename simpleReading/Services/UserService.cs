@@ -1,11 +1,14 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using simpleReading.Context;
+using simpleReading.Interfaces;
 using simpleReading.Models;
 
-namespace simpleReading.Service
+namespace simpleReading.Services
 {
-    public class UserService(AppDbContext context)
+    public class UserService(
+        AppDbContext context
+        ) : IUserService
     {
         private readonly AppDbContext _context = context;
 

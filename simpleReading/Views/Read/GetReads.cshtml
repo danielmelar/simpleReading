@@ -1,7 +1,7 @@
 ﻿@using simpleReading.Extensions
 @{
     ViewData["Title"] = "Leituras";
-    var currentUser = Context.Session.GetObject<User>("currentUser");
+    var currentUser = Context.Session.GetObject<User>("logged_user");
 }
 
 <h3>Minhas leituras</h3>

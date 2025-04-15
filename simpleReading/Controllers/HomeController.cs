@@ -9,7 +9,7 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        var user = HttpContext.Session.GetObject<User>("currentUser");
+        var user = HttpContext.Session.GetObject<User>("logged_user");
         if (user is null)
         {
             return RedirectToAction("Login", "Auth");
