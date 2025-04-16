@@ -14,10 +14,10 @@ namespace simpleReading.Services
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<AuthenticationResult> GetUserByLoginCredentials(string email, string password)
+        public async Task<AuthenticationResult> GetUserByLoginCredentials(string emailOrUsername, string password)
         {
-            var user = await _context.User.FirstOrDefaultAsync(predicate: x => x.Email == email.ToLower().Trim());
-            if (user == null || !VerifyPasswd(password.ToLower().Trim(), user.Password)) return new AuthenticationResult(false, "Usuário não encontrado! Verifique o email e senha.");
+            var user = await _context.User.FirstOrDefaultAsync(predicate: x => x.Email == emailOrUsername.ToLower().Trim() || x.Username == emailOrUsername);
+            if (user == null || !VerifyPasswd(password, user.Password)) return new AuthenticationResult(false, "Usuário não encontrado! Verifique o email e senha.");
                 
             return new AuthenticationResult(true, "Bem vindo!", user);
         }
@@ -29,7 +29,7 @@ namespace simpleReading.Services
             if (user != null)
                 return new AuthenticationResult(false, "Apelido e/ou email já em uso.");
 
-            input.Password = HashPasswd(input.Password.ToLower().Trim());
+            input.Password = HashPasswd(input.Password);
             
             await _context.User.AddAsync(input);
             await _context.SaveChangesAsync();
