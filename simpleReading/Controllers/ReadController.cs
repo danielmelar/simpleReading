@@ -50,9 +50,9 @@ namespace simpleReading.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Read read)
+        public async Task<IActionResult> Update(Read input)
         {
-            await _readService.Update(read);
+            await _readService.Update(input);
 
             return RedirectToAction("GetAll");
         }

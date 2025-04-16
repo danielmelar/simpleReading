@@ -43,14 +43,16 @@ namespace simpleReading.Services
             return userReads;
         }
 
-        public async Task<Read> Update(Read uRead)
+        public async Task<ReadOperationResult> Update(Read input)
         {
-            var read = await _context.Read.FirstAsync(x => x.Id == uRead.Id);
+            var read = await _context.Read.FirstOrDefaultAsync(x => x.Id == input.Id);
+            if (read == null)
+                return new ReadOperationResult(false, "leitura não encontrada");
 
-            _context.Read.Update(read);
+            _context.Read.Update(input);
             await _context.SaveChangesAsync();
 
-            return read;
+            return new ReadOperationResult(true, "leitura atualizada com sucesso", read);
         }
 
         public async Task<User> UpdateCurrentUserReads(User user)
