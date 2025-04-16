@@ -1,11 +1,17 @@
 ﻿@model simpleReading.Models.User
 @{
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Entrar";
 }
 
-<h3>Login</h3>
+<h3>Entrar</h3>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 <form asp-action="Login" method="post">
     <div class="form-group">
@@ -20,7 +26,7 @@
         <span asp-validation-for="Password"></span>
     </div>
     <br />
-    <button class="btn btn-primary" type="submit">Entrar</button>
+    <button class="btn btn-primary btn-sm" type="submit">Entrar</button>
 </form>
 
-<button class="p-2 bd-highlight btn btn-secondary" value="Redirect" onclick="window.location='@Url.Action("Register", "Auth")'">Criar nova conta</button>
+<button class="p-2 bd-highlight btn btn-secondary btn-sm" value="Redirect" onclick="window.location='@Url.Action("Register", "Auth")'">Criar nova conta</button>

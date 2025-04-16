@@ -9,11 +9,11 @@ namespace simpleReading.Models
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        [Required]
+        [Required(ErrorMessage = "Um título é necessário")]
         [Display(Name = "Título")]
         public string Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Um autor é necessário")]
         [Display(Name = "Autor")]
         public string Author { get; set; }
 

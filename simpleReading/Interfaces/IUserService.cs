@@ -4,6 +4,7 @@ namespace simpleReading.Interfaces
 {
     public interface IUserService
     {
-        Task<User?> GetUserByLoginCredentials(string email, string password);
+        Task<AuthenticationResult> GetUserByLoginCredentials(string email, string password);
+        Task<AuthenticationResult> Create(User input);
     }
 }

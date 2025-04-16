@@ -22,10 +22,14 @@ namespace simpleReading.Controllers
         [HttpPost("/login")]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var user = await _authService.Login(email, password);
-            if (user == null) return View();
+            var result = await _authService.Login(email, password);
+            if (!result.Sucess)
+            {
+                TempData["ErrorMessage"] = result.Message;
+                return View();
+            }
 
-            HttpContext.Session.SetObject("logged_user", user);
+            HttpContext.Session.SetObject("logged_user", result.User);
 
             return RedirectToAction("Index", "Home");
         }
@@ -39,9 +43,13 @@ namespace simpleReading.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register(User model)
         {
-            if (!await _authService.Register(model))
+            var result = await _authService.Register(model);
+            if (!result.Sucess)
+            {
+                TempData["ErrorMessage"] = result.Message;
                 return View();
-
+            }
+                
             return RedirectToAction("Index", "Home");
         }
 

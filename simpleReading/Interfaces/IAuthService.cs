@@ -5,7 +5,7 @@ namespace simpleReading.Interfaces
 {
     public interface IAuthService
     {
-        Task<User?> Login(string email, string password);
-        Task<bool> Register(User user);
+        Task<AuthenticationResult> Login(string email, string password);
+        Task<AuthenticationResult> Register(User user);
     }
 }

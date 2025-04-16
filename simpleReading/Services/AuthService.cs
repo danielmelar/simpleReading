@@ -6,41 +6,38 @@ using simpleReading.Models;
 namespace simpleReading.Services
 {
     public class AuthService(
-        AppDbContext context,
-        ILogger<AuthService> logger,
         IUserService userService,
         IReadService readService
         ) : IAuthService
     {
-        private readonly AppDbContext _context = context;
-        private readonly ILogger<AuthService> _logger = logger;
         private readonly IUserService _userService = userService;
         private readonly IReadService _readService = readService;
 
-        public async Task<User?> Login(string email, string password)
+        public async Task<AuthenticationResult> Login(string email, string password)
         {
-            var user = await _userService.GetUserByLoginCredentials(email, password);
-            if (user == null) return null;
+            if (string.IsNullOrEmpty(email) || string.IsNullOrWhiteSpace(email)
+                || string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password))
+                return new AuthenticationResult(false, "Preencha os campos vazios!");
 
-            user.Reads = await _readService.GetReadsByUserId(user.Id);
+            var result = await _userService.GetUserByLoginCredentials(email, password);
+            if (!result.Sucess) return result;
 
-            return user;
+            result.User.Reads = await _readService.GetReadsByUserId(result.User.Id);
+
+            return result;
         }
 
-        public async Task<bool> Register(User user)
+        public async Task<AuthenticationResult> Register(User user)
         {
-            try
-            {
-                await _context.User.AddAsync(user);
-                await _context.SaveChangesAsync();
+            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrWhiteSpace(user.Username)
+                || string.IsNullOrEmpty(user.Email) || string.IsNullOrWhiteSpace(user.Email)
+                || string.IsNullOrEmpty(user.Password) || string.IsNullOrWhiteSpace(user.Password))
+                return new AuthenticationResult(false, "Preencha os campos vazios!");
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return false;
-            }
+            var result = await _userService.Create(user);
+            if (!result.Sucess) return result;
+
+            return result;
         }
     }
 }
