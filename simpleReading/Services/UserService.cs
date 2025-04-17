@@ -37,6 +37,14 @@ namespace simpleReading.Services
             return new AuthenticationResult(true, "Usuário cadastrado com sucesso.", input);
         }
 
+        public async Task<User?> GetUserByUsername(string username)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null) return null;
+
+            return user;
+        }
+
         public string HashPasswd(string password)
         {
             return HashPassword(password);

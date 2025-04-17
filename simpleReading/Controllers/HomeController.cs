@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using simpleReading.Extensions;
 using simpleReading.Models;
+using simpleReading.ViewModel;
 
 namespace simpleReading.Controllers;
 
@@ -10,11 +11,25 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         var user = HttpContext.Session.GetObject<User>("logged_user");
-        if (user is null)
+        if (user == null) return RedirectToAction("Login", "Auth");
+
+        var reads = user.Reads;
+
+        var groupedReads = new GroupedReadsViewModel
         {
-            return RedirectToAction("Login", "Auth");
-        }
-        return View();
+            ReadsByYearAndMonth = reads
+            .GroupBy(r => r.CreatedAt.Year)
+            .ToDictionary(
+                yearGroup => yearGroup.Key,
+                yearGroup => yearGroup
+                .GroupBy(r => r.CreatedAt.Month)
+                .ToDictionary(
+                    monthGroup => monthGroup.Key,
+                    monthGroup => monthGroup.ToList()
+                )
+            )
+        };
+        return View(groupedReads);
     }
 
     public IActionResult Privacy()

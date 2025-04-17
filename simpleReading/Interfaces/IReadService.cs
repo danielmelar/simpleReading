@@ -9,5 +9,6 @@ namespace simpleReading.Interfaces
         Task<bool> Delete(string id);
         Task<ReadOperationResult> Update(Read uRead);
         Task<User> UpdateCurrentUserReads(User user);
+        Task<List<Read>> GetReadsByUsername(string username);
     }
 }

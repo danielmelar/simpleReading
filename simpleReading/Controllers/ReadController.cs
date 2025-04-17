@@ -2,6 +2,7 @@
 using simpleReading.Extensions;
 using simpleReading.Interfaces;
 using simpleReading.Models;
+using simpleReading.ViewModel;
 
 namespace simpleReading.Controllers
 {
@@ -59,7 +60,33 @@ namespace simpleReading.Controllers
 
         public IActionResult GetAll()
         {
+            var currentUser = HttpContext.Session.GetObject<User>(logged);
+            if (currentUser == null)
+                return RedirectToAction("Login", "Auth");
+
             return View();
+        }
+
+        [HttpGet("leituras/{username}")]
+        public async Task<IActionResult> GetReadsByUsername(string username)
+        {
+            var reads = await _readService.GetReadsByUsername(username);
+
+            var groupedReads = new GroupedReadsViewModel
+            {
+                ReadsByYearAndMonth = reads
+                .GroupBy(r => r.CreatedAt.Year)
+                .ToDictionary(
+                    yearGroup => yearGroup.Key,
+                    yearGroup => yearGroup
+                    .GroupBy(r => r.CreatedAt.Month)
+                    .ToDictionary(
+                        monthGroup => monthGroup.Key,
+                        monthGroup => monthGroup.ToList()
+                    )
+                )
+            };
+            return View(groupedReads);
         }
     }
 }

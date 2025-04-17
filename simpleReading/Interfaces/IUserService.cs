@@ -6,5 +6,7 @@ namespace simpleReading.Interfaces
     {
         Task<AuthenticationResult> GetUserByLoginCredentials(string email, string password);
         Task<AuthenticationResult> Create(User input);
+
+        Task<User?> GetUserByUsername(string username);
     }
 }

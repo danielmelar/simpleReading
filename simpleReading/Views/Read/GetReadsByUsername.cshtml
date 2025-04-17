@@ -1,0 +1,31 @@
+﻿@using simpleReading.Extensions
+@using simpleReading.ViewModel
+@model GroupedReadsViewModel
+@{
+    Layout = "~/Views/Shared/_PublicReadsLayout.cshtml";
+    ViewData["Title"] = "Leituras";
+}
+
+@foreach (var yearGroup in Model.ReadsByYearAndMonth.OrderByDescending(y => y.Key))
+{
+    <div class="ms-3">
+        <h2>@yearGroup.Key</h2>
+
+        @foreach (var monthGroup in yearGroup.Value.OrderByDescending(m => m.Key))
+        {
+            <div class="ms-3">
+                <h3>@Model.MonthNames[monthGroup.Key]</h3>
+
+                <ul class="list-group list-group-flush">
+                    @foreach (var read in monthGroup.Value)
+                    {
+                        <li class="list-group-item">
+                            <strong>@read.Title</strong> - @read.Author
+                            <span class="text-muted small">(@read.CreatedAt.ToString("dd/MM"))</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+}

@@ -7,10 +7,12 @@ using simpleReading.Models;
 namespace simpleReading.Services
 {
     public class ReadService(
-        AppDbContext context
+        AppDbContext context,
+        IUserService userService
         ) : IReadService
     {
         private readonly AppDbContext _context = context;
+        private readonly IUserService _userService = userService;
 
         [HttpPost]
         public async Task<bool> Create(Read read, string userId)
@@ -35,12 +37,14 @@ namespace simpleReading.Services
 
         public async Task<ICollection<Read>?> GetReadsByUserId(string userId)
         {
-            var AllReads = await _context.Read.ToListAsync();
+            var reads = await _context.Read
+                .Where(u => u.UserId == userId)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
 
-            var userReads = AllReads.FindAll(x => x.UserId == userId);
-            if (userReads == null) return null;
+            if (reads == null) return null;
 
-            return userReads;
+            return reads;
         }
 
         public async Task<ReadOperationResult> Update(Read input)
@@ -62,6 +66,16 @@ namespace simpleReading.Services
             user.Reads = newReads;
 
             return user;
+        }
+
+        public async Task<List<Read>?> GetReadsByUsername(string username)
+        {
+            var user = await _userService.GetUserByUsername(username);
+            if (user == null) return null;
+
+            user.Reads = await GetReadsByUserId(user.Id);
+
+            return user.Reads.ToList();
         }
     }
 }

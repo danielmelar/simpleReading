@@ -1,19 +1,33 @@
 ﻿@using simpleReading.Extensions
+@using simpleReading.ViewModel
+@model GroupedReadsViewModel
 @{
     ViewData["Title"] = "Home Page";
-    var currentUser = Context.Session.GetObject<User>("currentUser");
+    var user = Context.Session.GetObject<User>("logged_user");
+
+    var dailyReads = user.Reads.FirstOrDefault(predicate: r => r.CreatedAt.ToLocalTime().Day == DateTime.UtcNow.ToLocalTime().Day);
 }
 
-@{
-    
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-@if (currentUser != null)
+@foreach (var yearGroup in Model.ReadsByYearAndMonth.OrderByDescending(y => y.Key))
 {
-    <h3>Olá, @currentUser.Username!</h3>
+    <div class="ms-3">
+        <h2>@yearGroup.Key</h2>
+
+        @foreach (var monthGroup in yearGroup.Value.OrderByDescending(m => m.Key))
+        {
+            <div class="ms-3">
+                <h3>@Model.MonthNames[monthGroup.Key]</h3>
+
+                <ul class="list-group list-group-flush">
+                    @foreach (var read in monthGroup.Value)
+                    {
+                        <li class="list-group-item">
+                            <strong>@read.Title</strong> - @read.Author
+                            <span class="text-muted small">(@read.CreatedAt.ToString("dd/MM"))</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
 }
