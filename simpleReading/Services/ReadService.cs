@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using simpleReading.Context;
 using simpleReading.Interfaces;
 using simpleReading.Models;
+using simpleReading.ViewModel;
 
 namespace simpleReading.Services
 {
@@ -76,6 +78,26 @@ namespace simpleReading.Services
             user.Reads = await GetReadsByUserId(user.Id);
 
             return user.Reads.ToList();
+        }
+
+        public GroupedReadsViewModel MountViewModel(ICollection<Read> reads)
+        {
+            var groupedReads = new GroupedReadsViewModel
+            {
+                ReadsByYearAndMonth = reads
+                .GroupBy(r => r.CreatedAt.Year)
+                .ToDictionary(
+                    yearGroup => yearGroup.Key,
+                    yearGroup => yearGroup
+                    .GroupBy(r => r.CreatedAt.Month)
+                    .ToDictionary(
+                        monthGroup => monthGroup.Key,
+                        monthGroup => monthGroup.ToList()
+                    )
+                )
+            };
+
+            return groupedReads;
         }
     }
 }

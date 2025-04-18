@@ -8,6 +8,10 @@
     var dailyReads = user.Reads.FirstOrDefault(predicate: r => r.CreatedAt.ToLocalTime().Day == DateTime.UtcNow.ToLocalTime().Day);
 }
 
+<div class="text-center">
+    <h4 class="display-4">Leituras</h4>
+</div>
+
 @foreach (var yearGroup in Model.ReadsByYearAndMonth.OrderByDescending(y => y.Key))
 {
     <div class="ms-3">
@@ -28,6 +32,8 @@
                     }
                 </ul>
             </div>
+            <br />
         }
     </div>
+    <br />
 }

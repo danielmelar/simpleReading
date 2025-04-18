@@ -1,34 +1,52 @@
 ﻿@using simpleReading.Extensions
+@using simpleReading.ViewModel
+@model GroupedReadsViewModel
 @{
     ViewData["Title"] = "Leituras";
     var currentUser = Context.Session.GetObject<User>("logged_user");
 }
 
-<h3>Minhas leituras</h3>
+<div class="text-center">
+    <h4 class="display-4">Editar leituras</h4>
+</div>
 
-@if (currentUser.Reads.Any())
+
+@foreach (var yearGroup in Model.ReadsByYearAndMonth.OrderByDescending(y => y.Key))
 {
-    @foreach (var read in currentUser.Reads)
-    {
-        <br />
-        <h4>@read.Title</h4>
-        <ul>
-            <li>Autor: @read.Author</li>
-            <li><a href="@read.Source">fonte</a></li>
-        </ul>
+    <div class="ms-3">
+        <h2>@yearGroup.Key</h2>
 
-        <div class="d-flex flex-row bd-highlight mb-3 ">
-            <div class="p-2 bd-highlight">
-                <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">
-                    <button type="button" class="btn btn-outline-danger btn-sm">deletar</button>
-                </a>
-            </div>
+        @foreach (var monthGroup in yearGroup.Value.OrderByDescending(m => m.Key))
+        {
+            <div class="ms-3">
+                <h3>@Model.MonthNames[monthGroup.Key]</h3>
 
-            <div class="p-2 bd-highlight">
-                <a asp-controller="Read" asp-action="Update" asp-route-id="@read.Id">
-                    <button type="button" class="btn btn-outline-warning btn-sm">editar</button>
-                </a>
+                <ul class="list-group list-group-flush">
+                    @foreach (var read in monthGroup.Value)
+                    {
+                        <li class="list-group-item">
+                            <strong>@read.Title</strong> - @read.Author
+                            <span class="text-muted small">(@read.CreatedAt.ToString("dd/MM"))</span>
+
+                            <div class="d-flex flex-row bd-highlight mb-3 ">
+                                <div class="p-2 bd-highlight">
+                                    <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">
+                                        <button type="button" class="btn btn-outline-danger btn-sm">deletar</button>
+                                    </a>
+                                </div>
+
+                                <div class="p-2 bd-highlight">
+                                    <a asp-controller="Read" asp-action="Update" asp-route-id="@read.Id">
+                                        <button type="button" class="btn btn-outline-warning btn-sm">editar</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
             </div>
-        </div>
-    }
+            <br />
+        }
+    </div>
+    <br />
 }

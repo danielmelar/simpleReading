@@ -60,11 +60,13 @@ namespace simpleReading.Controllers
 
         public IActionResult GetAll()
         {
-            var currentUser = HttpContext.Session.GetObject<User>(logged);
-            if (currentUser == null)
+            var user = HttpContext.Session.GetObject<User>(logged);
+            if (user == null)
                 return RedirectToAction("Login", "Auth");
 
-            return View();
+            var reads = _readService.MountViewModel(user.Reads);
+
+            return View(reads);
         }
 
         [HttpGet("leituras/{username}")]

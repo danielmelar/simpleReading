@@ -1,4 +1,5 @@
 ﻿using simpleReading.Models;
+using simpleReading.ViewModel;
 
 namespace simpleReading.Interfaces
 {
@@ -10,5 +11,6 @@ namespace simpleReading.Interfaces
         Task<ReadOperationResult> Update(Read uRead);
         Task<User> UpdateCurrentUserReads(User user);
         Task<List<Read>> GetReadsByUsername(string username);
+        GroupedReadsViewModel MountViewModel(ICollection<Read> reads);
     }
 }
