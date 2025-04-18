@@ -47,18 +47,10 @@ namespace simpleReading.Controllers
 
             await UpdateLocalSession(HttpContext.Session.GetObject<User>(logged));
 
-            return RedirectToAction("GetAll");
+            return RedirectToAction("Update");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(Read input)
-        {
-            await _readService.Update(input);
-
-            return RedirectToAction("GetAll");
-        }
-
-        public IActionResult GetAll()
+        public IActionResult Update()
         {
             var user = HttpContext.Session.GetObject<User>(logged);
             if (user == null)
@@ -66,7 +58,25 @@ namespace simpleReading.Controllers
 
             var reads = _readService.MountViewModel(user.Reads);
 
-            return View(reads);
+            return View(new UpdateViewModel(null, reads));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateViewModel updateRead)
+        {
+            var user = HttpContext.Session.GetObject<User>(logged);
+            if (user == null)
+                return RedirectToAction("Login", "Auth");
+
+            var read = await _readService.Update(updateRead.Read);
+
+            user = await _readService.UpdateCurrentUserReads(user);
+
+            var reads = _readService.MountViewModel(user.Reads);
+
+            await UpdateLocalSession(user);
+
+            return View(new UpdateViewModel(read.Read, reads));
         }
 
         [HttpGet("leituras/{username}")]

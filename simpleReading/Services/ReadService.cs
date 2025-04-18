@@ -55,7 +55,11 @@ namespace simpleReading.Services
             if (read == null)
                 return new ReadOperationResult(false, "leitura não encontrada");
 
-            _context.Read.Update(input);
+            read.Title = input.Title;
+            read.Author = input.Author;
+            read.Source = input.Source;
+
+            _context.Read.Update(read);
             await _context.SaveChangesAsync();
 
             return new ReadOperationResult(true, "leitura atualizada com sucesso", read);

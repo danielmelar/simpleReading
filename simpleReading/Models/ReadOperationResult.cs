@@ -2,11 +2,11 @@
 {
     public class ReadOperationResult
     {
-        public ReadOperationResult(bool sucess, string message, Read user)
+        public ReadOperationResult(bool sucess, string message, Read read)
         {
             Sucess = sucess;
             Message = message;
-            User = user;
+            Read = read;
         }
         public ReadOperationResult(bool sucess, string message)
         {
@@ -16,6 +16,6 @@
 
         public bool Sucess { get; set; }
         public string Message { get; set; }
-        public Read? User { get; set; }
+        public Read? Read { get; set; }
     }
 }

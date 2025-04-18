@@ -1,1 +1,96 @@
-﻿<h1>Hello, Modal!</h1>
+﻿@using simpleReading.Extensions
+@using simpleReading.ViewModel
+@model UpdateViewModel
+@{
+    ViewData["Title"] = "Leituras";
+    var user = Context.Session.GetObject<User>("logged_user");
+}
+
+<div class="text-center">
+    <h4 class="display-4">Editar leituras</h4>
+</div>
+
+
+@foreach (var yearGroup in Model.GroupedReads.ReadsByYearAndMonth.OrderByDescending(y => y.Key))
+{
+    <div class="ms-3">
+        <h2>@yearGroup.Key</h2>
+
+        @foreach (var monthGroup in yearGroup.Value.OrderByDescending(m => m.Key))
+        {
+            <div class="ms-3">
+                <h3>@Model.GroupedReads.MonthNames[monthGroup.Key]</h3>
+
+                <ul class="list-group list-group-flush">
+                    @foreach (var read in monthGroup.Value)
+                    {
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>@read.Title</strong> - @read.Author
+                                    <span class="text-muted small">(@read.CreatedAt.ToString("dd/MM"))</span>
+                                </div>
+
+                                <div class="d-flex flex-row bd-highlight mb-3 ">
+                                    <div class="container">
+                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#@read.Id">
+                                            Editar
+                                        </button>
+
+                                    <!-- Modal -->
+                                        <div class="modal fade" id="@read.Id" tabindex="1" role="dialog" aria-labelledby="@read.Id" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modal title">@read.Title</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                <div class="modal-body">
+
+                                                    <form asp-controller="Read" asp-action="Update" method="post">
+                                                        <div class="form-group">
+                                                            <label asp-for="Read.Title"></label>
+                                                            <input class="form-control" asp-for="Read.Title" value="@read.Title" />
+                                                            <span asp-validation-for="Read.Title"></span>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label asp-for="Read.Author"></label>
+                                                            <input class="form-control" asp-for="Read.Author" value="@read.Author" />
+                                                            <span asp-validation-for="Read.Author"></span>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label asp-for="Read.Source"></label>
+                                                            <input class="form-control" asp-for="Read.Source" value="@read.Source"/>
+                                                            <span asp-validation-for="Read.Source"></span>
+                                                        </div>
+
+                                                        
+                                                        <input type="hidden" value="@(read.Id)" asp-for="Read.Id" />
+                                                        <br />
+                                                        <button class="btn btn-primary" type="submit">Salvar</button>
+                                                    </form>
+
+                                                </div>
+                                                    <div class="modal-footer d-flex justify-content-between">
+                                                        <div class="p-2 bd-highlight d-flex justify-content-start">
+                                                            <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">
+                                                                <button type="button" class="btn btn-danger btn-sm">deletar</button>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <br />
+        }
+    </div>
+    <br />
+}
