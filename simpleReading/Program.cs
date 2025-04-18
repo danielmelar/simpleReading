@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews()
     });
 
 var cs = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(cs));
+var db = builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(cs));
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -30,6 +30,21 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var dbContext = services.GetRequiredService<AppDbContext>();
+        dbContext.Database.Migrate();
+    }
+    catch(Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "There's some error while apply migratinos");
+    }
+}
 
 app.UseSession();
 
