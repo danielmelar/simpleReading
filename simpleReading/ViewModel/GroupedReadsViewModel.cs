@@ -11,5 +11,6 @@ namespace simpleReading.ViewModel
             {5, "Maio"}, {6, "Junho"}, {7, "Julho"}, {8, "Agosto"},
             {9, "Setembro"}, {10, "Outubro"}, {11, "Novembro"}, {12, "Dezembro"}
         };
+        public string? Username { get; set; }
     }
 }

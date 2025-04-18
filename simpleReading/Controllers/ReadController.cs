@@ -38,14 +38,23 @@ namespace simpleReading.Controllers
 
             await UpdateLocalSession(currentUser);
 
+            TempData["ActionMessage"] = "Leitura adicionada com sucesso";
+
             return View(read);
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            await _readService.Delete(id);
+            var result = await _readService.Delete(id);
+            if (!result)
+            {
+                TempData["DeleteMessage"] = "Erro ao deletar leitura";
+                return RedirectToAction("Update");
+            }
 
             await UpdateLocalSession(HttpContext.Session.GetObject<User>(logged));
+
+            TempData["DeleteMessage"] = "Leitura deletada com sucesso";
 
             return RedirectToAction("Update");
         }
@@ -76,10 +85,12 @@ namespace simpleReading.Controllers
 
             await UpdateLocalSession(user);
 
+            TempData["UpdateMessage"] = "Leitura atualizada com sucesso";
+
             return View(new UpdateViewModel(read.Read, reads));
         }
 
-        [HttpGet("leituras/{username}")]
+        [HttpGet("{username}")]
         public async Task<IActionResult> GetReadsByUsername(string username)
         {
             var reads = await _readService.GetReadsByUsername(username);
@@ -98,6 +109,8 @@ namespace simpleReading.Controllers
                     )
                 )
             };
+
+            groupedReads.Username = username;
             return View(groupedReads);
         }
     }

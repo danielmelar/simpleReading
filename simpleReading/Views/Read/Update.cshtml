@@ -11,6 +11,20 @@
 </div>
 
 
+@if (TempData["UpdateMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["UpdateMessage"]
+    </div>
+}
+
+@if (TempData["DeleteMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["DeleteMessage"]
+    </div>
+}
+
 @foreach (var yearGroup in Model.GroupedReads.ReadsByYearAndMonth.OrderByDescending(y => y.Key))
 {
     <div class="ms-3">
@@ -45,40 +59,41 @@
                                                         <h5 class="modal-title" id="modal title">@read.Title</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                <div class="modal-body">
+                                                    <div class="modal-body">
 
-                                                    <form asp-controller="Read" asp-action="Update" method="post">
-                                                        <div class="form-group">
-                                                            <label asp-for="Read.Title"></label>
-                                                            <input class="form-control" asp-for="Read.Title" value="@read.Title" />
-                                                            <span asp-validation-for="Read.Title"></span>
-                                                        </div>
+                                                        <form asp-controller="Read" asp-action="Update" method="post">
+                                                            <input type="hidden" value="@(read.Id)" asp-for="Read.Id" />
 
-                                                        <div class="form-group">
-                                                            <label asp-for="Read.Author"></label>
-                                                            <input class="form-control" asp-for="Read.Author" value="@read.Author" />
-                                                            <span asp-validation-for="Read.Author"></span>
-                                                        </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="Read.Title"></label>
+                                                                <input class="form-control" asp-for="Read.Title" value="@read.Title" />
+                                                                <span asp-validation-for="Read.Title"></span>
+                                                            </div>
 
-                                                        <div class="form-group">
-                                                            <label asp-for="Read.Source"></label>
-                                                            <input class="form-control" asp-for="Read.Source" value="@read.Source"/>
-                                                            <span asp-validation-for="Read.Source"></span>
-                                                        </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="Read.Author"></label>
+                                                                <input class="form-control" asp-for="Read.Author" value="@read.Author" />
+                                                                <span asp-validation-for="Read.Author"></span>
+                                                            </div>
 
-                                                        
-                                                        <input type="hidden" value="@(read.Id)" asp-for="Read.Id" />
-                                                        <br />
-                                                        <button class="btn btn-primary" type="submit">Salvar</button>
-                                                    </form>
+                                                            <div class="form-group">
+                                                                <label asp-for="Read.Source"></label>
+                                                                <input class="form-control" asp-for="Read.Source" value="@read.Source"/>
+                                                                <span asp-validation-for="Read.Source"></span>
+                                                            </div>
 
-                                                </div>
-                                                    <div class="modal-footer d-flex justify-content-between">
-                                                        <div class="p-2 bd-highlight d-flex justify-content-start">
-                                                            <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">
-                                                                <button type="button" class="btn btn-danger btn-sm">deletar</button>
-                                                            </a>
-                                                        </div>
+                                                                <div class="modal-footer d-flex justify-content-between">
+                                                                    <div class="p-2 bd-highlight d-flex justify-content-start">
+                                                                        <a asp-controller="Read" asp-action="Delete" asp-route-id="@read.Id">
+                                                                            <button type="button" class="btn btn-danger btn-sm">deletar</button>
+                                                                        </a>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <button class="btn btn-primary btn-sm" type="submit">Salvar</button>
+                                                                    </div>
+                                                                </div>  
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>

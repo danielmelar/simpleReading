@@ -6,6 +6,10 @@
     ViewData["Title"] = "Leituras";
 }
 
+<div class="text-center">
+    <h4 class="display-4">Leituras de @Model.Username</h4>
+</div>
+
 @foreach (var yearGroup in Model.ReadsByYearAndMonth.OrderByDescending(y => y.Key))
 {
     <div class="ms-3">

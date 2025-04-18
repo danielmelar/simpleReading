@@ -27,4 +27,11 @@
     <button class="btn btn-primary" type="submit">Adicionar</button>
 </form>
 
+<br />
+@if (TempData["ActionMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["ActionMessage"]
+    </div>
+}
 
