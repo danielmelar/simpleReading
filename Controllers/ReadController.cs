@@ -90,10 +90,14 @@ namespace simpleReading.Controllers
             return View(new UpdateViewModel(read.Read, reads));
         }
 
-        [HttpGet("{username}")]
+        [HttpGet("leituras/{username}")]
         public async Task<IActionResult> GetReadsByUsername(string username)
         {
             var reads = await _readService.GetReadsByUsername(username);
+            if (reads == null)
+            {
+                return View(new GroupedReadsViewModel(null));
+            }
 
             var groupedReads = new GroupedReadsViewModel
             {

@@ -18,7 +18,6 @@ services:
       - "8080:8080"
       - "8081:8081"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development 
-      - ConnectionStrings__DefaultConnection=Host=db;Database=sr;Username=docker;Password=docker
+      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - db

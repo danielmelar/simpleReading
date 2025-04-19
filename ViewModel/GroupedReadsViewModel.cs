@@ -1,10 +1,19 @@
-﻿using simpleReading.Models;
+﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using simpleReading.Models;
 
 namespace simpleReading.ViewModel
 {
     public class GroupedReadsViewModel
     {
-        public Dictionary<int, Dictionary<int, List<Read>>> ReadsByYearAndMonth { get; set; }
+        public GroupedReadsViewModel()
+        { }
+
+        public GroupedReadsViewModel(string username)
+        {
+            Username = username;
+        }
+
+        public Dictionary<int, Dictionary<int, List<Read>>>? ReadsByYearAndMonth { get; set; }
         public Dictionary<int, string> MonthNames { get; } = new Dictionary<int, string>
         {
             {1, "Janeiro"}, {2, "Fevereiro"}, {3, "Março"}, {4, "Abril"},

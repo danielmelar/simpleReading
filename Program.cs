@@ -14,6 +14,8 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.WriteIndented = true;
     });
 
+DotNetEnv.Env.Load();
+
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 var uri = new Uri(databaseUrl);
 var database = uri.AbsolutePath.Trim('/');
