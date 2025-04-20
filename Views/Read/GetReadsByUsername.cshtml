@@ -41,8 +41,18 @@ else
                         @foreach (var read in monthGroup.Value)
                         {
                             <li class="list-group-item">
-                                <strong>@read.Title</strong> - @read.Author
-                                <span class="text-muted small">(@read.CreatedAt.ToString("dd/MM"))</span>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <strong>@read.Title</strong> - @read.Author
+                                        <span class="text-muted small">(@read.CreatedAt.ToString("dd/MM"))</span>
+                                    </div>
+                                    <div>
+                                        @if (!string.IsNullOrWhiteSpace(read.Source))
+                                        {
+                                            <a href="@read.Source">ler</a>
+                                        }
+                                    </div>
+                                </div>
                             </li>
                         }
                     </ul>

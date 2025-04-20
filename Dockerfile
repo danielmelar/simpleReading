@@ -1,32 +1,11 @@
-# Acesse https://aka.ms/customizecontainer para saber como personalizar seu contêiner de depuração e como o Visual Studio usa este Dockerfile para criar suas imagens para uma depuração mais rápida.
+FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:35792ea4ad1db051981f62b313f1be3b46b1f45cadbaa3c288cd0d3056eefb83 AS build
+WORKDIR /App
 
-# Esta fase é usada durante a execução no VS no modo rápido (Padrão para a configuração de Depuração)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+COPY . ./
+RUN dotnet restore
+RUN dotnet publish -o out
 
-
-# Esta fase é usada para compilar o projeto de serviço
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-
-COPY ["simpleReading.csproj", "src/"]
-RUN dotnet restore "src/simpleReading.csproj"
-COPY . .
-WORKDIR "/src/"
-RUN dotnet build "./simpleReading.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-# Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./simpleReading.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-# Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-
+FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:6c4df091e4e531bb93bdbfe7e7f0998e7ced344f54426b7e874116a3dc3233ff
+WORKDIR /App
+COPY --from=build /App/out .
 ENTRYPOINT ["dotnet", "simpleReading.dll"]
