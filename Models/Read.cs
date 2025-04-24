@@ -24,6 +24,8 @@ namespace simpleReading.Models
         public string UserId { get; set; }
 
         [DataType(DataType.DateTime)]
+        [Display(Name = "Data da leitura")]
+        [Required(ErrorMessage = "Uma data é necessária")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [JsonIgnore]

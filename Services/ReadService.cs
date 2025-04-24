@@ -19,7 +19,12 @@ namespace simpleReading.Services
         [HttpPost]
         public async Task<bool> Create(Read read, string userId)
         {
-            read.UserId = userId;
+            if (read.CreatedAt == DateTime.MinValue)
+                read.CreatedAt = DateTime.UtcNow;
+            else
+                read.CreatedAt = read.CreatedAt.ToUniversalTime();
+
+                read.UserId = userId;
 
             await _context.AddAsync(read);
             await _context.SaveChangesAsync();
@@ -58,6 +63,7 @@ namespace simpleReading.Services
             read.Title = input.Title;
             read.Author = input.Author;
             read.Source = input.Source;
+            read.CreatedAt = input.CreatedAt.ToUniversalTime();
 
             _context.Read.Update(read);
             await _context.SaveChangesAsync();

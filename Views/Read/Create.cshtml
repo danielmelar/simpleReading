@@ -3,7 +3,9 @@
     ViewData["Title"] = "Nova leitura";
 }
 
-<h3>Nova leitura</h3>
+<div class="text-center">
+    <h4 class="display-4">Adicionar Leitura</h4>
+</div>
 
 <form asp-action="Create" method="post">
     <div class="form-group">
@@ -20,8 +22,15 @@
 
     <div class="form-group">
         <label asp-for="Source"></label>
-        <input class ="form-control" asp-for="Source" />
+        <input class ="form-control" asp-for="Source" asp-format="{0:dd/MM/yyyy}"/>
         <label>Se for um livro físico, tente adicionar o link de onde comprá-lo(por exemplo, o link da amazom). Se não houver fonte, deixe em banco.</label>
+        <span asp-validation-for="Source"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CreatedAt"></label>
+        <input class="form-control" asp-for="CreatedAt" type="date"/>
+        <label>Se for uma leitura passada, adicione uma data personalizada. Deixe em branco caso seja uma nova leitura.</label>
         <span asp-validation-for="Source"></span>
     </div>
     <br />

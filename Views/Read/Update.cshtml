@@ -80,6 +80,12 @@
                                                                 <label asp-for="Read.Source"></label>
                                                                 <input class="form-control" asp-for="Read.Source" value="@read.Source"/>
                                                                 <span asp-validation-for="Read.Source"></span>
+                                                            </div
+
+                                                            <div class="form-group">
+                                                                <label asp-for="Read.CreatedAt"></label>
+                                                                <input class="form-control" asp-for="Read.CreatedAt" value="@read.CreatedAt.ToString("yyyy-MM-dd")" type="date"  />
+                                                                <span asp-validation-for="Read.CreatedAt"></span>
                                                             </div>
 
                                                                 <div class="modal-footer d-flex justify-content-between">

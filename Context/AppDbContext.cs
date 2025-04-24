@@ -7,7 +7,7 @@ namespace simpleReading.Context
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         public DbSet<User> User { get; set; }
