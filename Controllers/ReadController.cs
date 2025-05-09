@@ -24,6 +24,7 @@ namespace simpleReading.Controllers
             return true;
         }
 
+        [Route("leituras/adicionar")]
         public IActionResult Create()
         {
             return View();
@@ -59,6 +60,7 @@ namespace simpleReading.Controllers
             return RedirectToAction("Update");
         }
 
+        [Route("leituras/atualizar")]
         public IActionResult Update()
         {
             var user = HttpContext.Session.GetObject<User>(logged);
@@ -90,7 +92,7 @@ namespace simpleReading.Controllers
             return View(new UpdateViewModel(read.Read, reads));
         }
 
-        [HttpGet("leituras/{username}")]
+        [HttpGet("{username}")]
         public async Task<IActionResult> GetReadsByUsername(string username)
         {
             var reads = await _readService.GetReadsByUsername(username);
