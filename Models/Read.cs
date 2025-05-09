@@ -28,6 +28,9 @@ namespace simpleReading.Models
         [Required(ErrorMessage = "Uma data é necessária")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        [Display(Name = "Leitura finalizada")]
+        public bool Finished { get; set; } = true;
+
         [JsonIgnore]
         public virtual User User { get; set; }
     }

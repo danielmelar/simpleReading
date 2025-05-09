@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 using simpleReading.Context;
 using simpleReading.Interfaces;
 using simpleReading.Models;
 using simpleReading.ViewModel;
+using Sprache;
 
 namespace simpleReading.Services
 {
@@ -32,6 +34,33 @@ namespace simpleReading.Services
             return true;
         }
 
+        [HttpPost]
+        public async Task<bool> CreateWithReadedPages(Read updateRead, string userId)
+        {
+            var read = await _context.Read.FirstOrDefaultAsync(x => x.Id == updateRead.Id);
+
+            if (updateRead.Finished)
+            {
+                await UpdateFinished(updateRead.Id, updateRead.Finished);
+            }
+
+            updateRead.Id = Guid.NewGuid().ToString();
+            updateRead.UserId = userId;
+            updateRead.Finished = true;
+
+            if (updateRead.CreatedAt == DateTime.MinValue)
+                updateRead.CreatedAt = DateTime.UtcNow;
+            else
+                updateRead.CreatedAt = DateTime.UtcNow;
+
+            updateRead.Title = $"{read.Title} - {updateRead.Title} páginas";
+
+            await _context.AddAsync(updateRead);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<bool> Delete(string id)
         {
             var read = await _context.Read.FirstAsync(x => x.Id == id);
@@ -54,6 +83,16 @@ namespace simpleReading.Services
             return reads;
         }
 
+        public async Task<bool> UpdateFinished(string readId, bool finished)
+        {
+            var read = await _context.Read.FirstOrDefaultAsync(x => x.Id == readId);
+
+            read.Finished = finished;
+
+            _context.Read.Update(read);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<ReadOperationResult> Update(Read input)
         {
             var read = await _context.Read.FirstOrDefaultAsync(x => x.Id == input.Id);
@@ -63,7 +102,7 @@ namespace simpleReading.Services
             read.Title = input.Title;
             read.Author = input.Author;
             read.Source = input.Source;
-            read.CreatedAt = input.CreatedAt.ToUniversalTime();
+            read.Finished = input.Finished;
 
             _context.Read.Update(read);
             await _context.SaveChangesAsync();

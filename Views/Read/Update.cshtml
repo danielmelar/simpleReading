@@ -51,7 +51,7 @@
                                             Editar
                                         </button>
 
-                                    <!-- Modal -->
+                                        <!-- Modal -->
                                         <div class="modal fade" id="@read.Id" tabindex="1" role="dialog" aria-labelledby="@read.Id" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
@@ -80,12 +80,25 @@
                                                                 <label asp-for="Read.Source"></label>
                                                                 <input class="form-control" asp-for="Read.Source" value="@read.Source"/>
                                                                 <span asp-validation-for="Read.Source"></span>
-                                                            </div
+                                                            </div>
 
                                                             <div class="form-group">
                                                                 <label asp-for="Read.CreatedAt"></label>
                                                                 <input class="form-control" asp-for="Read.CreatedAt" value="@read.CreatedAt.ToString("yyyy-MM-dd")" type="date"  />
                                                                 <span asp-validation-for="Read.CreatedAt"></span>
+                                                            </div>
+
+                                                            <div class="form-check">
+                                                                <label class="form-check-label" asp-for="Read.Finished"></label>
+                                                                @if (read.Finished)
+                                                                {
+                                                                    <input class="form-check-input" asp-for="Read.Finished" type="checkbox" checked/>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input class="form-check-input" asp-for="Read.Finished" type="checkbox" />
+                                                                }
+                                                                <span asp-validation-for="Read.Finished"></span>
                                                             </div>
 
                                                                 <div class="modal-footer d-flex justify-content-between">

@@ -31,8 +31,15 @@
         <label asp-for="CreatedAt"></label>
         <input class="form-control" asp-for="CreatedAt" type="date"/>
         <label>Se for uma leitura passada, adicione uma data personalizada. Deixe em branco caso seja uma nova leitura.</label>
-        <span asp-validation-for="Source"></span>
+        <span asp-validation-for="CreatedAt"></span>
     </div>
+
+    <div class="form-check">
+        <label class="form-check-label" asp-for="Finished"></label>
+        <input class="form-check-input" asp-for="Finished" type="checkbox" checked />
+        <span asp-validation-for="Finished"></span>
+    </div>
+
     <br />
     <button class="btn btn-primary" type="submit">Adicionar</button>
 </form>

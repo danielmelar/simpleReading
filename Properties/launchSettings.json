@@ -11,7 +11,6 @@
     },
     "https": {
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DATABASE_URL": "postgresql://simplereading_db_vbkr_user:tJOPeNp0YmV3L56A9imG1mr3iyBqFbNk@dpg-d09pivogjchc739f30ag-a.ohio-postgres.render.com:5432/simplereading_db_vbkr"

@@ -34,6 +34,9 @@ namespace simpleReading.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("Finished")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Source")
                         .HasColumnType("text");
 

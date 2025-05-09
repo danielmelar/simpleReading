@@ -24,7 +24,6 @@ namespace simpleReading.Controllers
             return true;
         }
 
-        [Route("leituras/adicionar")]
         public IActionResult Create()
         {
             return View();
@@ -60,7 +59,6 @@ namespace simpleReading.Controllers
             return RedirectToAction("Update");
         }
 
-        [Route("leituras/atualizar")]
         public IActionResult Update()
         {
             var user = HttpContext.Session.GetObject<User>(logged);
@@ -118,6 +116,37 @@ namespace simpleReading.Controllers
 
             groupedReads.Username = username;
             return View(groupedReads);
+        }
+
+        public IActionResult UpdateReadedPages()
+        {
+            var user = HttpContext.Session.GetObject<User>(logged);
+            if (user == null)
+                return RedirectToAction("Login", "Auth");
+
+            var reads = _readService.MountViewModel(user.Reads.Where(r => r.Finished == false).ToList());
+
+            return View(new UpdateViewModel(null, reads));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateReadedPages(UpdateViewModel updateRead)
+        {
+            var user = HttpContext.Session.GetObject<User>(logged);
+            if (user == null)
+                return RedirectToAction("Login", "Auth");
+
+            await _readService.CreateWithReadedPages(updateRead.Read, user.Id);
+
+            user = await _readService.UpdateCurrentUserReads(user);
+
+            var reads = _readService.MountViewModel(user.Reads.Where(r => r.Finished == false).ToList());
+
+            await UpdateLocalSession(user);
+
+            TempData["UpdateMessage"] = "Leitura atualizada com sucesso";
+
+            return View(new UpdateViewModel(null, reads));
         }
     }
 }

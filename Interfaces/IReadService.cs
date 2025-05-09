@@ -7,6 +7,7 @@ namespace simpleReading.Interfaces
     {
         Task<ICollection<Read>?> GetReadsByUserId(string userId);
         Task<bool> Create(Read read, string userId);
+        Task<bool> CreateWithReadedPages(Read updateRead, string userId);
         Task<bool> Delete(string id);
         Task<ReadOperationResult> Update(Read uRead);
         Task<User> UpdateCurrentUserReads(User user);

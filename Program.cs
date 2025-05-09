@@ -24,19 +24,15 @@ var userInfo = uri.UserInfo.Split(':');
 
 var connectionString = $"Host={uri.Host};Port={uri.Port};Database={database};Username={userInfo[0]};Password={userInfo[1]};";
 
-
-//var cs = builder.Configuration.GetConnectionString("Default");
-//var db = builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(cs));
-
-
-var db = builder.Services.AddDbContext<AppDbContext>(options => {
+var db = builder.Services.AddDbContext<AppDbContext>(options =>
+{
     options.UseNpgsql(connectionString, o => o.EnableRetryOnFailure());
-    if (builder.Environment.IsDevelopment()) {
+    if (builder.Environment.IsDevelopment())
+    {
         options.EnableDetailedErrors();
         options.EnableSensitiveDataLogging();
     }
 });
-
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
