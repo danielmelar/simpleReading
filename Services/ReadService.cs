@@ -53,8 +53,6 @@ namespace simpleReading.Services
             else
                 updateRead.CreatedAt = DateTime.UtcNow;
 
-            updateRead.Title = $"{read.Title} - {updateRead.Title} páginas";
-
             await _context.AddAsync(updateRead);
             await _context.SaveChangesAsync();
 

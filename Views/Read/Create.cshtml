@@ -47,7 +47,7 @@
 
     <div class="form-group">
         <label asp-for="Pages"></label>
-        <input class="form-control" asp-for="Pages" type="number"/>
+        <input class="form-control" asp-for="Pages" type="number" min="0"/>
         <label>De preferência, insira apenas para leituras não finalizadas.</label>
         <span asp-validation-for="Pages"></span>
     </div>

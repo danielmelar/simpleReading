@@ -64,9 +64,15 @@
                                                         <form asp-controller="Read" asp-action="UpdateReadedPages" method="post">
                                                             <input type="hidden" value="@(read.Id)" asp-for="Read.Id" />
 
-                                                            <div class="form-group">
+                                                            @* <div class="form-group">
                                                                 <label>Número de páginas lidas</label>
                                                                 <input id="inputPage" class="form-control" type="number"  />
+                                                            </div> *@
+
+                                                            <div class="form-group">
+                                                                <label asp-for="Read.Pages"></label>
+                                                                <input class="form-control" asp-for="Read.Pages" type="number" />
+                                                                <span asp-validation-for="Read.Pages"></span>
                                                             </div>
 
                                                             <div class="form-check">
@@ -85,7 +91,7 @@
                                                             <div hidden>
                                                                 <div class="form-group">
                                                                     <label asp-for="Read.Title"></label>
-                                                                    <input id="pages" class="form-control" asp-for="Read.Title" />
+                                                                    <input class="form-control" asp-for="Read.Title" value="@read.Title"/>
                                                                     <span asp-validation-for="Read.Title"></span>
                                                                 </div>
 
@@ -99,13 +105,14 @@
                                                                     <label asp-for="Read.Source"></label>
                                                                     <input class="form-control" asp-for="Read.Source" value="@read.Source"/>
                                                                     <span asp-validation-for="Read.Source"></span>
-                                                                </div
+                                                                </div>
 
                                                                 <div class="form-group">
                                                                     <label asp-for="Read.CreatedAt"></label>
                                                                     <input class="form-control" asp-for="Read.CreatedAt" value="@read.CreatedAt.ToString("yyyy-MM-dd")" type="date"  />
                                                                     <span asp-validation-for="Read.CreatedAt"></span>
                                                                 </div>
+
                                                             </div>
 
                                                                 <div class="modal-footer d-flex justify-content-between">
