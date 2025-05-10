@@ -101,6 +101,7 @@ namespace simpleReading.Services
             read.Author = input.Author;
             read.Source = input.Source;
             read.Finished = input.Finished;
+            read.Pages = input.Pages;
 
             _context.Read.Update(read);
             await _context.SaveChangesAsync();

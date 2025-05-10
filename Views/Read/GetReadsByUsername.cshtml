@@ -43,7 +43,11 @@ else
                             <li class="list-group-item">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <strong>@read.Title</strong> - @read.Author
+                                        <strong>@read.Title</strong> - @read.Author -
+                                        @if (read.Pages > 0)
+                                        {
+                                            <span class="small">@read.Pages.ToString() páginas</span>
+                                        }
                                         <span class="text-muted small">(@read.CreatedAt.ToString("dd/MM"))</span>
                                     </div>
                                     <div>
