@@ -37,6 +37,9 @@ namespace simpleReading.Migrations
                     b.Property<bool>("Finished")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("Pages")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Source")
                         .HasColumnType("text");
 

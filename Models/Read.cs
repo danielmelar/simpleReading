@@ -31,6 +31,9 @@ namespace simpleReading.Models
         [Display(Name = "Leitura finalizada")]
         public bool Finished { get; set; } = true;
 
+        [Display(Name = "Quantidade de páginas lidas.")]
+        public int Pages { get; set; }
+
         [JsonIgnore]
         public virtual User User { get; set; }
     }

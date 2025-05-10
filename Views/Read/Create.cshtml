@@ -13,19 +13,22 @@
         <input class="form-control" asp-for="Title" />
         <span asp-validation-for="Title"></span>
     </div>
+    <br />
 
     <div class="form-group">
         <label asp-for="Author"></label>
         <input class="form-control" asp-for="Author" />
         <span asp-validation-for="Author"></span>
     </div>
+    <br />
 
     <div class="form-group">
         <label asp-for="Source"></label>
-        <input class ="form-control" asp-for="Source" asp-format="{0:dd/MM/yyyy}"/>
+        <input class="form-control" asp-for="Source" asp-format="{0:dd/MM/yyyy}"/>
         <label>Se for um livro físico, tente adicionar o link de onde comprá-lo(por exemplo, o link da amazom). Se não houver fonte, deixe em banco.</label>
         <span asp-validation-for="Source"></span>
     </div>
+    <br />
 
     <div class="form-group">
         <label asp-for="CreatedAt"></label>
@@ -33,11 +36,20 @@
         <label>Se for uma leitura passada, adicione uma data personalizada. Deixe em branco caso seja uma nova leitura.</label>
         <span asp-validation-for="CreatedAt"></span>
     </div>
+    <br />
 
     <div class="form-check">
         <label class="form-check-label" asp-for="Finished"></label>
         <input class="form-check-input" asp-for="Finished" type="checkbox" checked />
         <span asp-validation-for="Finished"></span>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label asp-for="Pages"></label>
+        <input class="form-control" asp-for="Pages" type="number"/>
+        <label>De preferência, insira apenas para leituras não finalizadas.</label>
+        <span asp-validation-for="Pages"></span>
     </div>
 
     <br />
